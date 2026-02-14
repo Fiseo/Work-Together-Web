@@ -26,6 +26,9 @@ class Company extends Client
     )]
     private ?\DateTime $creation = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $name = null;
+
     public function getCompanyRegister(): ?string
     {
         return $this->companyRegister;
@@ -46,6 +49,18 @@ class Company extends Client
     public function setCreation(\DateTime $creation): static
     {
         $this->creation = $creation;
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }
