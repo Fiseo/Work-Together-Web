@@ -26,24 +26,6 @@ class Civility
     )]
     private ?string $label = null;
 
-    /**
-     * @var Collection<int, Staff>
-     */
-    #[ORM\OneToMany(targetEntity: Staff::class, mappedBy: 'civility')]
-    private Collection $staffs;
-
-    /**
-     * @var Collection<int, Individual>
-     */
-    #[ORM\OneToMany(targetEntity: Individual::class, mappedBy: 'civility')]
-    private Collection $clients;
-
-    public function __construct()
-    {
-        $this->staffs = new ArrayCollection();
-        $this->clients = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -57,66 +39,6 @@ class Civility
     public function setLabel(string $label): static
     {
         $this->label = $label;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Staff>
-     */
-    public function getStaffs(): Collection
-    {
-        return $this->staffs;
-    }
-
-    public function addStaff(Staff $staff): static
-    {
-        if (!$this->staffs->contains($staff)) {
-            $this->staffs->add($staff);
-            $staff->setCivility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeStaff(Staff $staff): static
-    {
-        if ($this->staffs->removeElement($staff)) {
-            // set the owning side to null (unless already changed)
-            if ($staff->getCivility() === $this) {
-                $staff->setCivility(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Individual>
-     */
-    public function getClients(): Collection
-    {
-        return $this->clients;
-    }
-
-    public function addClient(Individual $client): static
-    {
-        if (!$this->clients->contains($client)) {
-            $this->clients->add($client);
-            $client->setCivility($this);
-        }
-
-        return $this;
-    }
-
-    public function removeClient(Individual $client): static
-    {
-        if ($this->clients->removeElement($client)) {
-            // set the owning side to null (unless already changed)
-            if ($client->getCivility() === $this) {
-                $client->setCivility(null);
-            }
-        }
 
         return $this;
     }

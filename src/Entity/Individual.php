@@ -38,7 +38,7 @@ class Individual extends Client
     )]
     private ?\DateTime $birthDate = null;
 
-    #[ORM\ManyToOne(inversedBy: 'clients')]
+    #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank(message: "La civilité est obligatoire !")]
     private ?Civility $civility = null;

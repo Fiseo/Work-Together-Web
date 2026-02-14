@@ -28,7 +28,7 @@ abstract class Staff extends User
     )]
     private ?string $lastName = null;
 
-    #[ORM\ManyToOne(inversedBy: 'staffs')]
+    #[ORM\ManyToOne]
     #[Assert\NotBlank(message: "La civilité est obligatoire !")]
     private ?Civility $civility = null;
 
