@@ -27,6 +27,13 @@ class Company extends Client
     private ?\DateTime $creation = null;
 
     #[ORM\Column(length: 255)]
+    #[Assert\NotBlank(message: "Le nom de l'entreprise ne peut pas être vide !")]
+    #[Assert\Length(
+        min: 2,
+        max: 255,
+        minMessage: "Le nom de l'entreprise doit contenir au moins {{ limit }} caractères !",
+        maxMessage: "Le nom de l'entreprise ne peut pas dépasser {{ limit }} caractères !"
+    )]
     private ?string $name = null;
 
     public function getCompanyRegister(): ?string
