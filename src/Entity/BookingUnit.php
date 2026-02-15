@@ -99,7 +99,7 @@ class BookingUnit
         return $this->start;
     }
 
-    public function setStart(\DateTime $start): static
+    public function setStart(?\DateTime $start): static
     {
         $this->start = $start;
 
@@ -111,7 +111,7 @@ class BookingUnit
         return $this->end;
     }
 
-    public function setEnd(\DateTime $end): static
+    public function setEnd(?\DateTime $end): static
     {
         $this->end = $end;
 

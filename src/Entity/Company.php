@@ -41,7 +41,7 @@ class Company extends Client
         return $this->companyRegister;
     }
 
-    public function setCompanyRegister(string $companyRegister): static
+    public function setCompanyRegister(?string $companyRegister): static
     {
         $this->companyRegister = $companyRegister;
 
@@ -53,7 +53,7 @@ class Company extends Client
         return $this->creation;
     }
 
-    public function setCreation(\DateTime $creation): static
+    public function setCreation(?\DateTime $creation): static
     {
         $this->creation = $creation;
 
@@ -65,7 +65,7 @@ class Company extends Client
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(?string $name): static
     {
         $this->name = $name;
 

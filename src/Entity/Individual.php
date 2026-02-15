@@ -48,7 +48,7 @@ class Individual extends Client
         return $this->firstName;
     }
 
-    public function setFirstName(string $firstName): static
+    public function setFirstName(?string $firstName): static
     {
         $this->firstName = $firstName;
 
@@ -60,7 +60,7 @@ class Individual extends Client
         return $this->lastName;
     }
 
-    public function setLastName(string $lastName): static
+    public function setLastName(?string $lastName): static
     {
         $this->lastName = $lastName;
 
@@ -72,7 +72,7 @@ class Individual extends Client
         return $this->birthDate;
     }
 
-    public function setBirthDate(\DateTime $birthDate): static
+    public function setBirthDate(?\DateTime $birthDate): static
     {
         $this->birthDate = $birthDate;
 

@@ -60,7 +60,7 @@ class Offer
         return $this->label;
     }
 
-    public function setLabel(string $label): static
+    public function setLabel(?string $label): static
     {
         $this->label = $label;
 
@@ -72,7 +72,7 @@ class Offer
         return $this->discount;
     }
 
-    public function setDiscount(int $discount): static
+    public function setDiscount(?int $discount): static
     {
         $this->discount = $discount;
 
@@ -84,7 +84,7 @@ class Offer
         return $this->unitProvided;
     }
 
-    public function setUnitProvided(int $unitProvided): static
+    public function setUnitProvided(?int $unitProvided): static
     {
         $this->unitProvided = $unitProvided;
 

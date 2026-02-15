@@ -44,7 +44,7 @@ class ServiceCall
         return $this->date;
     }
 
-    public function setDate(\DateTime $date): static
+    public function setDate(?\DateTime $date): static
     {
         $this->date = $date;
 

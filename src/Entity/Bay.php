@@ -47,7 +47,7 @@ class Bay
         return $this->label;
     }
 
-    public function setLabel(string $label): static
+    public function setLabel(?string $label): static
     {
         $this->label = $label;
 
