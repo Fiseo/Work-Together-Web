@@ -1,0 +1,33 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}no{% endblock %}
+
+{% block body %}
+    <h1>Register</h1>
+
+    {{ form_start(form) }}
+        {{ form_label(form.username) }}
+        {{ form_widget(form.username) }} <br>
+        {{ form_label(form.email) }}
+        {{ form_widget(form.email) }}<br>
+        {{ form_label(form.plainPassword) }}
+        {{ form_widget(form.plainPassword) }}<br>
+        {{ form_label(form.isCompany) }}
+        {{ form_widget(form.isCompany) }}<br>
+        {{ form_label(form.lastName) }}
+        {{ form_widget(form.lastName) }}<br>
+        {{ form_label(form.firstName) }}
+        {{ form_widget(form.firstName) }}<br>
+        {{ form_label(form.civility) }}
+        {{ form_widget(form.civility) }}<br>
+        {{ form_label(form.birthDate) }}
+        {{ form_widget(form.birthDate) }}<br>
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name) }}<br>
+        {{ form_label(form.companyRegister) }}
+        {{ form_widget(form.companyRegister) }}<br>
+        {{ form_label(form.creationDate) }}
+        {{ form_widget(form.creationDate) }}<br>
+        <button type="submit" class="btn">Register</button>
+    {{ form_end(form) }}
+{% endblock %}
