@@ -47,17 +47,10 @@ class Unit
     #[ORM\OneToMany(targetEntity: BookingUnit::class, mappedBy: 'unit')]
     private Collection $bookingUnits;
 
-    /**
-     * @var Collection<int, Component>
-     */
-    #[ORM\ManyToMany(targetEntity: Component::class, inversedBy: 'units')]
-    private Collection $components;
-
     public function __construct()
     {
         $this->serviceCalls = new ArrayCollection();
         $this->bookingUnits = new ArrayCollection();
-        $this->components = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -145,30 +138,6 @@ class Unit
                 $bookingUnit->setUnit(null);
             }
         }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Component>
-     */
-    public function getComponents(): Collection
-    {
-        return $this->components;
-    }
-
-    public function addComponent(Component $component): static
-    {
-        if (!$this->components->contains($component)) {
-            $this->components->add($component);
-        }
-
-        return $this;
-    }
-
-    public function removeComponent(Component $component): static
-    {
-        $this->components->removeElement($component);
 
         return $this;
     }

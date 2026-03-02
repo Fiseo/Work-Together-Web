@@ -24,22 +24,11 @@ class BookingUnit
     #[ORM\JoinColumn(nullable: false)]
     private ?Unit $unit = null;
 
-    /**
-     * @var Collection<int, Component>
-     */
-    #[ORM\ManyToMany(targetEntity: Component::class, inversedBy: 'bookingUnits')]
-    private Collection $components;
-
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $start = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTime $end = null;
-
-    public function __construct()
-    {
-        $this->components = new ArrayCollection();
-    }
 
     public function getId(): ?int
     {
@@ -66,30 +55,6 @@ class BookingUnit
     public function setUnit(?Unit $unit): static
     {
         $this->unit = $unit;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Component>
-     */
-    public function getComponents(): Collection
-    {
-        return $this->components;
-    }
-
-    public function addComponent(Component $component): static
-    {
-        if (!$this->components->contains($component)) {
-            $this->components->add($component);
-        }
-
-        return $this;
-    }
-
-    public function removeComponent(Component $component): static
-    {
-        $this->components->removeElement($component);
 
         return $this;
     }
