@@ -4,6 +4,8 @@ namespace App\Repository;
 
 use App\Entity\Unit;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,28 +18,19 @@ class UnitRepository extends ServiceEntityRepository
         parent::__construct($registry, Unit::class);
     }
 
-    //    /**
-    //     * @return Unit[] Returns an array of Unit objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * @return Collection<int, Unit>
+     */
+        public function findAvailable(): Collection
+        {
+            $nonFiltered = $this->findAll();
 
-    //    public function findOneBySomeField($value): ?Unit
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+            $result = [];
+            foreach ($nonFiltered as $unit) {
+                if ($unit->isAvailable())
+                    $result[] = $unit;
+            }
+
+            return new ArrayCollection($result);
+        }
 }

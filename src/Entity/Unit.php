@@ -153,4 +153,24 @@ class Unit
 
         return $this;
     }
+
+    public function isAvailable(): bool
+    {
+        if ($this->getCurrentBooking() !== null)
+            return true;
+        return false;
+    }
+
+    public function getCurrentBooking(): ?Booking
+    {
+        $now = new \DateTime();
+        if (!$this->getBookingUnits()->isEmpty())
+        {
+            foreach ($this->getBookingUnits() as $bookingUnit) {
+                if ($bookingUnit->getStart() < $now && $now < $bookingUnit->getEnd())
+                    return $bookingUnit;
+            }
+        }
+        return null;
+    }
 }
