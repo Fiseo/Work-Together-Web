@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Client;
+use App\Entity\Individual;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -12,28 +14,86 @@ final class UserController extends AbstractController
     #[Route('/', name: 'app_user')]
     public function index(): Response
     {
-        //TODO : Page de consultation de ses informations
-        return $this->render('base.html.twig', []);//TODO : Twig
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user === null) {
+            $this->addFlash(
+                'error',
+                'Page not found !'
+            );
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        if ($user instanceof Individual)
+            return $this->render('user/individualIndex.html.twig', [ //TODO : Twig
+                'individual' => $user,
+            ]);
+        else
+            return $this->render('user/companyIndex.html.twig', [ //TODO : Twig
+                'company' => $user,
+            ]);
     }
 
     #[Route('/edit', name: 'app_user_edit')]
     public function edit(): Response
     {
-        //TODO : Page de modification de ses informations
-        return $this->render('base.html.twig', []);//TODO : Twig
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user === null) {
+            $this->addFlash(
+                'error',
+                'Page not found !'
+            );
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        if ($user instanceof Individual)
+            return $this->render('user/individualEdit.html.twig', [ //TODO : Twig
+                'individual' => $user,
+            ]);
+        else
+            return $this->render('user/companyEdit.html.twig', [ //TODO : Twig
+                'company' => $user,
+            ]);
     }
 
     #[Route('/booking', name: 'app_user_booking')]
     public function booking(): Response
     {
-        //TODO : Page de consultation de sa liste de bookings
-        return $this->render('base.html.twig', []);//TODO : Twig
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user === null) {
+            $this->addFlash(
+                'error',
+                'Page not found !'
+            );
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        return $this->render('user/booking.html.twig', [ //TODO : Twig
+            'booking' => $user->getBookings(),
+        ]);
     }
 
     #[Route('/unit', name: 'app_user_unit')]
     public function unit():Response
     {
-        //TODO : Page de consultation de sa liste de bookings
-        return $this->render('base.html.twig', []);//TODO : Twig
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user === null) {
+            $this->addFlash(
+                'error',
+                'Page not found !'
+            );
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        return $this->render('user/unit.html.twig', [ //TODO : Twig
+            'unit' => $user->getUnits(),
+        ]);
     }
 }

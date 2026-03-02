@@ -141,4 +141,18 @@ class Booking
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Unit>
+     */
+    public function getCurrentUnits(): Collection
+    {
+        $result = [];
+        foreach ($this->getBookingUnits() as $bookingUnit) {
+            if ($bookingUnit->getEnd() === $this->getEnd()) {
+                $result[] = $bookingUnit->getUnit();
+            }
+        }
+        return new ArrayCollection($result);
+    }
 }

@@ -86,4 +86,16 @@ abstract class Client extends User
 
         return $this;
     }
+
+    /**
+     * @return Collection<int, Unit>
+     */
+    public function getUnits(): Collection
+    {
+        $result = [];
+        foreach ($this->getBookings() as $booking)
+            foreach ($booking->getCurrentUnits() as $unit)
+                $result[] = $unit;
+        return new ArrayCollection($result);
+    }
 }
