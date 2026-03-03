@@ -32,10 +32,6 @@ class Booking
     #[Assert\NotBlank(message: "La type de d'offre est obligatoire !")]
     private ?Offer $offer = null;
 
-    #[ORM\ManyToOne(inversedBy: 'bookings')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Client $client = null;
-
     /**
      * @var Collection<int, BookingUnit>
      */
@@ -47,6 +43,12 @@ class Booking
 
     #[ORM\Column]
     private ?bool $isRenewable = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    private ?Individual $individual = null;
+
+    #[ORM\ManyToOne(inversedBy: 'bookings')]
+    private ?Company $company = null;
 
     public function __construct()
     {
@@ -108,13 +110,18 @@ class Booking
 
     public function getClient(): ?Client
     {
-        return $this->client;
+        if ($this->individual !== null)
+            return $this->individual;
+        else
+            return $this->company;
     }
 
     public function setClient(?Client $client): static
     {
-        $this->client = $client;
-
+        if ($client instanceof Individual)
+            $this->individual = $client;
+        else
+            $this->company = $client;
         return $this;
     }
 

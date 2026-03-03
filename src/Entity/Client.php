@@ -22,17 +22,6 @@ abstract class Client extends User
     )]
     private ?int $rating = null;
 
-    /**
-     * @var Collection<int, Booking>
-     */
-    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'client', orphanRemoval: true)]
-    private Collection $bookings;
-
-    public function __construct()
-    {
-        $this->bookings = new ArrayCollection();
-    }
-
     public function getReview(): ?string
     {
         return $this->review;
@@ -60,32 +49,9 @@ abstract class Client extends User
     /**
      * @return Collection<int, Booking>
      */
-    public function getBookings(): Collection
-    {
-        return $this->bookings;
-    }
-
-    public function addBooking(Booking $booking): static
-    {
-        if (!$this->bookings->contains($booking)) {
-            $this->bookings->add($booking);
-            $booking->setClient($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBooking(Booking $booking): static
-    {
-        if ($this->bookings->removeElement($booking)) {
-            // set the owning side to null (unless already changed)
-            if ($booking->getClient() === $this) {
-                $booking->setClient(null);
-            }
-        }
-
-        return $this;
-    }
+    abstract function getBookings(): Collection;
+    abstract function addBooking(Booking $booking): static;
+    abstract function removeBooking(Booking $booking): static;
 
     /**
      * @return Collection<int, Unit>

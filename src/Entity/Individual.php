@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\IndividualRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -42,6 +44,17 @@ class Individual extends Client
     #[ORM\JoinColumn(nullable: false)]
     #[Assert\NotBlank(message: "La civilité est obligatoire !")]
     private ?Civility $civility = null;
+
+    /**
+     * @var Collection<int, Booking>
+     */
+    #[ORM\OneToMany(targetEntity: Booking::class, mappedBy: 'individual')]
+    private Collection $bookings;
+
+    public function __construct()
+    {
+        $this->bookings = new ArrayCollection();
+    }
 
     public function getFirstName(): ?string
     {
@@ -87,6 +100,36 @@ class Individual extends Client
     public function setCivility(?Civility $civility): static
     {
         $this->civility = $civility;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Booking>
+     */
+    public function getBookings(): Collection
+    {
+        return $this->bookings;
+    }
+
+    public function addBooking(Booking $booking): static
+    {
+        if (!$this->bookings->contains($booking)) {
+            $this->bookings->add($booking);
+            $booking->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBooking(Booking $booking): static
+    {
+        if ($this->bookings->removeElement($booking)) {
+            // set the owning side to null (unless already changed)
+            if ($booking->getClient() === $this) {
+                $booking->setClient(null);
+            }
+        }
 
         return $this;
     }
