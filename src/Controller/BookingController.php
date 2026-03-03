@@ -23,8 +23,7 @@ final class BookingController extends ModelController
         EntityManagerInterface $em,
     ): Response
     {
-        if (!$this->getUser())
-            return $this->redirectToRoute('app_login');
+        $this->needConnection('info', 'Veuillez vous connecter avant d\'effectuer une commande.', 'app_login');
 
         $offerList = $or->findOfferGreaterThan($us->getNumberUnit());
         if ($offerList->isEmpty()) {
