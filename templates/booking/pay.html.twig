@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_label(form.cardNumber) }}
+    {{ form_widget(form.cardNumber) }}  // VISA, MASTERCARD and AMERICAN EXPRESS only<br>
+    Date d'expiration :
+    {{ form_widget(form.expiryMonth) }} / {{ form_widget(form.expiryYear) }} <br>
+    {{ form_label(form.cvv) }}
+    {{ form_widget(form.cvv) }} <br>
+    <button type="submit" class="btn">Commander</button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
