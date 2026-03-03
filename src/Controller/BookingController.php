@@ -92,6 +92,23 @@ final class BookingController extends ModelController
         return $this->render('base.html.twig', []);//TODO : Twig
     }
 
+    #[Route('/{booking}/renewable', name: 'app_booking_renewable')]
+    public function reverseRenewable(Booking $booking, EntityManagerInterface $em): void
+    {
+        $this->needConnection(sendMessage: false);
+
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user->getId() !== $booking->getClient()->getId())
+            $this->kick(sendMessage: false);
+
+        $booking->setIsRenewable(!$booking->isRenewable());
+        $em->persist($booking);
+        $em->flush();
+        $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
+    }
+
     #[Route('/{booking}/', name: 'app_booking_details')]
     public function details(
         Booking $booking,
