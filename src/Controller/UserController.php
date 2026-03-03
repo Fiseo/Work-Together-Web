@@ -4,12 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Entity\Individual;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/user')]
-final class UserController extends AbstractController
+final class UserController extends ModelController
 {
     #[Route('/', name: 'app_user')]
     public function index(): Response

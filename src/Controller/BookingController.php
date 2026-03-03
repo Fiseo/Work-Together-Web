@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/booking')]
-final class BookingController extends AbstractController
+final class BookingController extends ModelController
 {
     #[Route('/new', name: 'app_booking_new')]
     public function new(): Response
