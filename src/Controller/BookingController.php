@@ -2,7 +2,13 @@
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Booking;
+use App\Entity\BookingUnit;
+use App\Form\BookingType;
+use App\Repository\OfferRepository;
+use App\Service\UnitService;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -10,10 +16,73 @@ use Symfony\Component\Routing\Attribute\Route;
 final class BookingController extends ModelController
 {
     #[Route('/new', name: 'app_booking_new')]
-    public function new(): Response
+    public function new(
+        OfferRepository        $or,
+        UnitService            $us,
+        Request                $request,
+        EntityManagerInterface $em,
+    ): Response
     {
-        //TODO : création d'un booking
-        return $this->render('base.html.twig', []);//TODO : Twig
+        if (!$this->getUser())
+            return $this->redirectToRoute('app_login');
+
+        $offerList = $or->findOfferGreaterThan($us->getNumberUnit());
+        if ($offerList->isEmpty()) {
+            $this->addFlash(
+                'info',
+                'Nous sommes désolé mais aucune offre n\'est disponible à l\'heure actuelle.'
+            );
+            return $this->redirectToRoute('app_dashboard');
+        }
+
+        $booking = (new Booking())
+                        ->setIsPayed(false)
+                        ->setStart(new \DateTime())
+                        ->setClient($this->getUser())
+                        ->setIsRenewable(true);
+
+        $form = $this->createForm(BookingType::class, $booking, ['offerAvailable' => $offerList]);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($booking->isMonthly())
+                $booking->setEnd($booking->getStart()->modify('+1 month'));
+            else
+                $booking->setEnd($booking->getStart()->modify('+1 year'));
+            $em->persist($booking);
+
+            $units = $us->getAvailableUnits($booking->getOffer()->getUnitProvided());
+            $buTemplate = (new BookingUnit())
+                ->setStart($booking->getStart())
+                ->setEnd($booking->getEnd())
+                ->setBooking($booking);
+
+            foreach ($units as $unit) {
+                $bu = clone $buTemplate;
+                $bu->setUnit($unit);
+                $em->persist($bu);
+            }
+
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Votre réservation est bien enregistrée.
+                 Vous avez maintenant 5 jours pour effectuer le paiement.'
+            );
+
+            return $this->redirectToRoute('app_user_booking');
+        }
+
+        $errors = $form->getErrors(true);
+        foreach ($errors as $error) {
+            $this->addFlash('error', $error->getMessage());
+        }
+
+        return $this->render('booking/new.html.twig', [ //TODO : Twig
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{booking}/pay', name: 'app_booking_pay')]

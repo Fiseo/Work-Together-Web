@@ -42,6 +42,12 @@ class Booking
     #[ORM\OneToMany(targetEntity: BookingUnit::class, mappedBy: 'booking', orphanRemoval: true)]
     private Collection $bookingUnits;
 
+    #[ORM\Column]
+    private ?bool $isPayed = null;
+
+    #[ORM\Column]
+    private ?bool $isRenewable = null;
+
     public function __construct()
     {
         $this->bookingUnits = new ArrayCollection();
@@ -154,5 +160,29 @@ class Booking
             }
         }
         return new ArrayCollection($result);
+    }
+
+    public function isPayed(): ?bool
+    {
+        return $this->isPayed;
+    }
+
+    public function setIsPayed(bool $isPayed): static
+    {
+        $this->isPayed = $isPayed;
+
+        return $this;
+    }
+
+    public function isRenewable(): ?bool
+    {
+        return $this->isRenewable;
+    }
+
+    public function setIsRenewable(bool $isRenewable): static
+    {
+        $this->isRenewable = $isRenewable;
+
+        return $this;
     }
 }

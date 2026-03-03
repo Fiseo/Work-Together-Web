@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}no{% endblock %}
+
+{% block body %}
+    <h1>Effectuer une commande</h1>
+
+    {{ form_start(form) }}
+    {{ form_label(form.isMonthly) }}
+    {{ form_widget(form.isMonthly) }} <br>
+    {{ form_label(form.offer) }}
+    {{ form_widget(form.offer) }} <br>
+    <button type="submit" class="btn">Commander</button>
+    {{ form_end(form) }}
+{% endblock %}
