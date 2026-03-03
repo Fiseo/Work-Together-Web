@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Booking;
 use App\Entity\BookingUnit;
+use App\Entity\Client;
 use App\Form\BookingType;
 use App\Repository\OfferRepository;
 use App\Service\UnitService;
@@ -92,9 +93,19 @@ final class BookingController extends ModelController
     }
 
     #[Route('/{booking}/', name: 'app_booking_details')]
-    public function details():Response {
+    public function details(
+        Booking $booking,
+    ):Response {
+        $this->needConnection();
 
-        //TODO : Consulter les informations d'un booking
-        return $this->render('base.html.twig', []);//TODO : Twig
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user->getId() !== $booking->getClient()->getId())
+            $this->kick();
+
+        return $this->render('booking/detail.html.twig', [ //TODO : Twig
+            'booking' => $booking,
+        ]);
     }
 }
