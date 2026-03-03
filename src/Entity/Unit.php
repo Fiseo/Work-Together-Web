@@ -156,7 +156,7 @@ class Unit
 
     public function isAvailable(): bool
     {
-        if ($this->getCurrentBooking() !== null)
+        if ($this->getCurrentBooking() == null)
             return true;
         return false;
     }
