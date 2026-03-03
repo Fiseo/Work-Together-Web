@@ -50,6 +50,9 @@ class Booking
     #[ORM\ManyToOne(inversedBy: 'bookings')]
     private ?Company $company = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $label = null;
+
     public function __construct()
     {
         $this->bookingUnits = new ArrayCollection();
@@ -189,6 +192,18 @@ class Booking
     public function setIsRenewable(bool $isRenewable): static
     {
         $this->isRenewable = $isRenewable;
+
+        return $this;
+    }
+
+    public function getLabel(): ?string
+    {
+        return $this->label;
+    }
+
+    public function setLabel(string $label): static
+    {
+        $this->label = $label;
 
         return $this;
     }

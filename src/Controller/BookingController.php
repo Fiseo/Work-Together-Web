@@ -39,7 +39,8 @@ final class BookingController extends ModelController
                         ->setIsPayed(false)
                         ->setStart(new \DateTime())
                         ->setClient($this->getUser())
-                        ->setIsRenewable(true);
+                        ->setIsRenewable(true)
+                        ->setLabel(bin2hex(random_bytes(8)));
 
         $form = $this->createForm(BookingType::class, $booking, ['offerAvailable' => $offerList]);
 
@@ -47,9 +48,10 @@ final class BookingController extends ModelController
         if ($form->isSubmitted() && $form->isValid()) {
 
             if ($booking->isMonthly())
-                $booking->setEnd($booking->getStart()->modify('+1 month'));
+                $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 month');
             else
-                $booking->setEnd($booking->getStart()->modify('+1 year'));
+                $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 year');
+            $booking->setEnd($end);
             $em->persist($booking);
 
             $units = $us->getAvailableUnits($booking->getOffer()->getUnitProvided());
