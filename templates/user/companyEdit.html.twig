@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_label(form.name) }}
+    {{ form_widget(form.name) }} <br>
+    {{ form_label(form.creation) }}
+    {{ form_widget(form.creation) }} <br>
+    {{ form_label(form.companyRegister) }}
+    {{ form_widget(form.companyRegister) }} <br>
+    <button type="submit" class="btn">Commander</button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}

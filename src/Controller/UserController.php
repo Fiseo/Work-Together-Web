@@ -4,6 +4,10 @@ namespace App\Controller;
 
 use App\Entity\Client;
 use App\Entity\Individual;
+use App\Form\CompanyType;
+use App\Form\IndividualType;
+use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -28,19 +32,43 @@ final class UserController extends ModelController
     }
 
     #[Route('/edit', name: 'app_user_edit')]
-    public function edit(): Response
+    public function edit(
+        Request                $request,
+        EntityManagerInterface $em,
+    ): Response
     {
         $this->needConnection();
         /** @var Client $user */
         $user = $this->getUser();
 
         if ($user instanceof Individual)
+            $form = $this->createForm(IndividualType::class, $user);
+        else
+            $form = $this->createForm(CompanyType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em->persist($user);
+            $em->flush();
+
+            $this->addFlash(
+                'success',
+                'Les modifications ont bien été pris en compte'
+            );
+
+            return $this->redirectToRoute('app_user');
+        }
+
+        if ($user instanceof Individual)
             return $this->render('user/individualEdit.html.twig', [ //TODO : Twig
                 'individual' => $user,
+                'form' => $form
             ]);
         else
             return $this->render('user/companyEdit.html.twig', [ //TODO : Twig
                 'company' => $user,
+                'form' => $form
             ]);
     }
 

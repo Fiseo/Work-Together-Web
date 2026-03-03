@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    {{ form_label(form.firstName) }}
+    {{ form_widget(form.firstName) }} <br>
+    {{ form_label(form.lastName) }}
+    {{ form_widget(form.lastName) }} <br>
+    {{ form_label(form.birthDate) }}
+    {{ form_widget(form.birthDate) }} <br>
+    {{ form_label(form.civility) }}
+    {{ form_widget(form.civility) }} <br>
+    <button type="submit" class="btn">Commander</button>
+    {{ form_end(form) }}
+
+{% endblock %}
+
+{% block title %}
+
+{% endblock %}
