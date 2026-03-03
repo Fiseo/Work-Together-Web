@@ -14,13 +14,6 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            if (!($this->getUser() instanceof Client)) {
-                $this->addFlash(
-                    'warning',
-                    'It\'s not possible for a staff account to connect here !' //TODO : Rework ce message
-                );
-                return $this->redirectToRoute('app_logout');
-            }
             return $this->redirectToRoute('app_dashboard');
         }
 
