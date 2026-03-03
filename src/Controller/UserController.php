@@ -13,16 +13,9 @@ final class UserController extends ModelController
     #[Route('/', name: 'app_user')]
     public function index(): Response
     {
+        $this->needConnection();
         /** @var Client $user */
         $user = $this->getUser();
-
-        if ($user === null) {
-            $this->addFlash(
-                'error',
-                'Page not found !'
-            );
-            return $this->redirectToRoute('app_dashboard');
-        }
 
         if ($user instanceof Individual)
             return $this->render('user/individualIndex.html.twig', [ //TODO : Twig
@@ -37,16 +30,9 @@ final class UserController extends ModelController
     #[Route('/edit', name: 'app_user_edit')]
     public function edit(): Response
     {
+        $this->needConnection();
         /** @var Client $user */
         $user = $this->getUser();
-
-        if ($user === null) {
-            $this->addFlash(
-                'error',
-                'Page not found !'
-            );
-            return $this->redirectToRoute('app_dashboard');
-        }
 
         if ($user instanceof Individual)
             return $this->render('user/individualEdit.html.twig', [ //TODO : Twig
@@ -61,16 +47,9 @@ final class UserController extends ModelController
     #[Route('/booking', name: 'app_user_booking')]
     public function booking(): Response
     {
+        $this->needConnection();
         /** @var Client $user */
         $user = $this->getUser();
-
-        if ($user === null) {
-            $this->addFlash(
-                'error',
-                'Page not found !'
-            );
-            return $this->redirectToRoute('app_dashboard');
-        }
 
         return $this->render('user/booking.html.twig', [ //TODO : Twig
             'booking' => $user->getBookings(),
@@ -80,16 +59,9 @@ final class UserController extends ModelController
     #[Route('/unit', name: 'app_user_unit')]
     public function unit():Response
     {
+        $this->needConnection();
         /** @var Client $user */
         $user = $this->getUser();
-
-        if ($user === null) {
-            $this->addFlash(
-                'error',
-                'Page not found !'
-            );
-            return $this->redirectToRoute('app_dashboard');
-        }
 
         return $this->render('user/unit.html.twig', [ //TODO : Twig
             'unit' => $user->getUnits(),

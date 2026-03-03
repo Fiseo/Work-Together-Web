@@ -13,8 +13,10 @@ abstract class ModelController extends AbstractController
         return false;
     }
 
-    protected function needConnection(): void{
-        if (!$this->isConnected())
-            $this->redirectToRoute('app_login');
+    protected function needConnection(string $type = 'error', string $message = 'Page not found !', $redirect = 'app_dashboard'): void{
+        if (!$this->isConnected()) {
+            $this->addFlash($type, $message);
+            $this->redirectToRoute($redirect);
+        }
     }
 }
