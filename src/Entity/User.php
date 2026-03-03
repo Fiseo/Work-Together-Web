@@ -60,9 +60,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     )]
     private ?string $username = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $lastConnection = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -152,18 +149,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUsername(?string $username): static
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function getLastConnection(): ?\DateTime
-    {
-        return $this->lastConnection;
-    }
-
-    public function setLastConnection(\DateTime $lastConnection): static
-    {
-        $this->lastConnection = $lastConnection;
 
         return $this;
     }
