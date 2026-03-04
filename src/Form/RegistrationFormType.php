@@ -45,7 +45,7 @@ class RegistrationFormType extends AbstractType
                 ],
             ])
             ->add('isCompany', CheckboxType::class, [
-                'label' => 'Entreprise :',
+                'label' => 'Êtes vous une entreprise ? :',
                 'required' => false,
             ])
             ->add('lastName', TextType::class, [
