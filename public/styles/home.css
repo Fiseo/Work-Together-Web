@@ -146,6 +146,10 @@
     box-shadow: 0 14px 36px rgba(0,0,0,0.12);
 }
 
+.service-card small {
+    font-weight: 700;
+}
+
 .service-icon {
     font-size: 3rem;
     margin-bottom: 0.75rem;
