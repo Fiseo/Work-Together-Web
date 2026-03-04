@@ -29,11 +29,7 @@
         </nav>
     {% endblock %}
     {% block flash %}
-        {% if block('navbar') %}
-            <div class="flash-container flash-container-nav">
-        {% else %}
-            <div class="flash-container">
-        {% endif%}
+        <div class="flash-container {% if block('navbar') %}flash-container-nav{% endif%}">
             {% for label, messages in app.flashes %}
                 {% for message in messages %}
                     <div class="flash-message flash-{{ label }}" role="alert">
@@ -44,6 +40,8 @@
                 {% endfor %}
             {% endfor %}
         </div>
+    {% endblock %}
+    {% block topOfMain %}
     {% endblock %}
     <main>
         {% block body %}
