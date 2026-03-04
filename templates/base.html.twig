@@ -5,7 +5,8 @@
         <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
-            <link rel="stylesheet" href="{{ asset('styles/style.css') }}">
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+            <link rel="stylesheet" href="{{ asset('styles/flash.css') }}"
         {% endblock %}
 
         {% block javascripts %}
@@ -18,32 +19,20 @@
             {% if app.user %}
                 <li><a href="{{ path('app_user_booking') }}">Réservations</a></li>
                 <li><a href="{{ path('app_user_unit') }}">Unité</a></li>
-                <li><a href="{{ path('app_user') }}">{{ app.user.username }}</a></li>
+                <li><a href="{{ path('app_user') }}" class="nav-highlight">{{ app.user.username }}</a></li>
             {% else %}
                 <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
-                <li><a href="{{ path('app_login') }}">Se connecter</a></li>
+                <li><a href="{{ path('app_login') }}" class="nav-highlight">Se connecter</a></li>
             {% endif %}
         </ul>
     </nav>
-        <header>
-            <div class="flash-container">
-                {% for label, messages in app.flashes %}
-                    {% for message in messages %}
-                        <div class="flash-message flash-{{ label }}" role="alert">
-                            <span class="flash-icon"></span>
-                            <span class="flash-content">{{ message|raw }}</span>
-                            <button class="flash-close" type="button" aria-label="Fermer">&times;</button>
-                        </div>
-                    {% endfor %}
-                {% endfor %}
-            </div>
-        </header>
 
-    {% block body %}
-    {% endblock %}
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
         <footer>
-            <span>&copy; {{ "now"|date("Y") }} WorkTogether Data Solutions</span>
-            <span>B001 to B030 &middot; Le Mans, FR</span>
+            <span>&copy; {{ "now"|date("Y") }} WorkTogether Data Solutions &middot; Laval, FR</span>
         </footer>
     </body>
 </html>
