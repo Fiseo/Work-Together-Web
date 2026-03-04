@@ -4,74 +4,117 @@
     WorkTogether Data Solutions
 {% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/home.css') }}">
+{% endblock %}
+
 {% block body %}
 
-    <section id="main">
-        <div>Infrastructure datacenter &middot; Le Mans, FR</div>
-        <h1>Votre infrastructure.<br><em>Notre datacenter.</em></h1>
-        <p>
-            WorkTogether Data Solutions met a votre disposition 30 baies de datacenter haute disponibilité.
-            Location flexible a la baie complete, demi-baie, quart de baie ou unite U.
+    <section class="hero">
+        <div class="hero-top">Infrastructure datacenter · Le Mans, FR</div>
+
+        <h1 class="hero-title">
+            Votre infrastructure.<br>
+            <em>Notre datacenter.</em>
+        </h1>
+
+        <p class="hero-description">
+            WorkTogether Data Solutions met à votre disposition 30 baies de datacenter haute disponibilité.
+            Location flexible à la baie complète, demi-baie, quart de baie ou unité U.
         </p>
-        <div>
-            <a href="#pricing">Voir les offres</a>
-            <a href="#services">Découvrir les services</a>
-        </div>
-        <div>
-            <div><div>{{ data.availablePercentage}} %</div><div>Unités disponibles</div></div>
-            <div><div>{{ data.totalUnit }}</div><div>Unités mises en place</div></div>
-            <div><div>99.9%</div><div>Disponibilité</div></div>
-            <div><div>24/7</div><div>Supervision</div></div>
-        </div>
-    </section>
 
-    <section id="services">
-        <h2>Une offre modulaire<br>adaptée a votre usage</h2>
-        <p>De l'unité individuelle a la baie complete, nous proposons une location flexible avec tous les services essentiels inclus.</p>
-        <div>
-            <div>
-                <span>🌐</span>
-                <div>Information consultable</div>
-                <p>Une API est disponible pour consulter les informations liées à vos unités.</p>
-                <span>Token d'authentification</span>
+        <div class="hero-buttons">
+            <a href="#pricing" class="btn-primary">Voir les offres</a>
+            <a href="#services" class="btn-outline">Découvrir les services</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat-card">
+                <div class="stat-value">{{ data.availablePercentage }} %</div>
+                <div class="stat-label">Unités disponibles</div>
             </div>
-            <div>
-                <span>🛜</span>
-                <div>Connectivité ultra-rapide</div>
-                <p>Liens fibre redondants, faible latence et bande passante garantie pour vos flux de donnees critiques.</p>
-                <span>Multi-opérateurs</span>
+
+            <div class="stat-card">
+                <div class="stat-value">{{ data.totalUnit }}</div>
+                <div class="stat-label">Unités mises en place</div>
             </div>
-            <div>
-                <span>🔒</span>
-                <div>Sécurité physique et logique</div>
-                <p>Accès controlée par badge, CCTV 24h/24, detection incendie, supervision réseau et SIEM intégré.</p>
-                <span>Certification ISO 27001</span>
+
+            <div class="stat-card">
+                <div class="stat-value">99.9%</div>
+                <div class="stat-label">Disponibilité</div>
             </div>
-            <div>
-                <span>⚡</span>
-                <div>Redondance électrique</div>
-                <p>Alimentation N+1, groupes électrogènes et onduleurs pour garantir la continuité de vos services.</p>
-                <span>Uptime 99.9%</span>
+
+            <div class="stat-card">
+                <div class="stat-value">24/7</div>
+                <div class="stat-label">Supervision</div>
             </div>
         </div>
     </section>
 
-    <section id="pricing">
-        <h2>Offres de location</h2>
-        <p>Des formules adaptées à chaque taille d'infrastructure, sans engagement minimum.</p>
-        <div>
+
+    <section class="services" id="services">
+        <div class="services-container">
+
+            <!-- Left side : titre + description -->
+            <div class="services-text">
+                <h2>Une offre modulaire adaptée à votre usage</h2>
+                <p>De l'unité individuelle à la baie complète, nous proposons une location flexible avec tous les services essentiels inclus.</p>
+            </div>
+
+            <!-- Right side : cards -->
+            <div class="services-cards">
+                <div class="service-card">
+                    <div class="service-icon">🌐</div>
+                    <div class="service-title">Information consultable</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🛜</div>
+                    <div class="service-title">Connectivité ultra-rapide</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">🔒</div>
+                    <div class="service-title">Sécurité physique et logique</div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">⚡</div>
+                    <div class="service-title">Redondance électrique</div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="pricing" id="pricing">
+        <h2 class="section-title">Offres de location</h2>
+        <p class="section-description">
+            Des formules adaptées à chaque taille d'infrastructure, sans engagement minimum.
+        </p>
+
+        <div class="pricing-grid">
             {% for offer in offers %}
-                <div>
-                    <div>{{ offer.label }}</div>
-                    {% if offer.unitProvided == 1 %}
-                        <div>1 unité</div>
-                    {% else %}
-                        <div>{{ offer.unitProvided}} unités</div>
-                    {% endif %}
-                    <div>{{ offer.discount*offer.unitProvided }}€ par mois</div>
-                    <a href="{{ path('app_booking_new') }}">Choisir</a>
+                <div class="pricing-card">
+                    <div class="pricing-title">{{ offer.label }}</div>
+
+                    <div class="pricing-units">
+                        {% if offer.unitProvided == 1 %}
+                            1 unité
+                        {% else %}
+                            {{ offer.unitProvided }} unités
+                        {% endif %}
+                    </div>
+
+                    <div class="pricing-price">
+                        {{ offer.discount * offer.unitProvided }}€ / mois
+                    </div>
+
+                    <a href="{{ path('app_booking_new') }}" class="btn-primary">
+                        Choisir
+                    </a>
                 </div>
             {% endfor %}
         </div>
     </section>
+
 {% endblock %}
