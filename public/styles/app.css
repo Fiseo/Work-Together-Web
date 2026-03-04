@@ -173,3 +173,13 @@ footer {
         padding: 1.5rem;
     }
 }
+
+/* =========================
+   OTHER
+========================= */
+
+.small-link {
+    top: 0.5rem;
+    font-weight: 700;
+    text-decoration: underline;
+}

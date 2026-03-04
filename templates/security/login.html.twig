@@ -9,16 +9,14 @@
 
 {% block body %}
     <form method="post">
-
         <h1>Connectez-vous !</h1>
         <label for="email">Email</label>
         <input type="email" name="_username" id="email" class="form-control" autocomplete="email" placeholder="Email" required autofocus>
         <label for="password">Mot de passe</label>
         <input type="password" name="_password" id="password" class="form-control" autocomplete="current-password" placeholder="Mot de passe" required>
         <input type="hidden" name="_csrf_token" data-controller="csrf-protection" value="{{ csrf_token('authenticate') }}">
-        <button class="btn btn-lg btn-primary" type="submit">
-            Connexion
-        </button>
+        <button class="btn btn-lg btn-primary" type="submit">Connexion</button>
+        <a href="{{ path('app_register') }}" class="small-link"><small>Pas encore de compte ? Créez le vôtre !</small></a>
     </form>
 {% endblock %}
 
