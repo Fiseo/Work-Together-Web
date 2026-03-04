@@ -67,18 +67,26 @@
                 <div class="service-card">
                     <div class="service-icon">🌐</div>
                     <div class="service-title">Information consultable</div>
+                    <p>Une API est disponible pour consulter les informations liées à vos unités.</p>
+                    <small>Token d'authentification</small>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🛜</div>
                     <div class="service-title">Connectivité ultra-rapide</div>
+                    <p>Liens fibre redondants, faible latence et bande passante garantie pour vos flux de données critiques.</p>
+                    <small>Multi-opérateurs</small>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">🔒</div>
                     <div class="service-title">Sécurité physique et logique</div>
+                    <p>Accès contrôlé par badge, CCTV 24h/24, détection incendie, supervision réseau et SIEM intégré.</p>
+                    <small>Certification ISO 27001</small>
                 </div>
                 <div class="service-card">
                     <div class="service-icon">⚡</div>
                     <div class="service-title">Redondance électrique</div>
+                    <p>Alimentation N+1, groupes électrogènes et onduleurs pour garantir la continuité de vos services.</p>
+                    <small>Uptime 99.9%</small>
                 </div>
             </div>
 
@@ -95,23 +103,32 @@
         <div class="pricing-grid">
             {% for offer in offers %}
                 <div class="pricing-card">
-                    <div class="pricing-title">{{ offer.label }}</div>
+                    <div class="pricing-top">
+                        <div class="pricing-title">{{ offer.label }}</div>
+                        <div class="pricing-units">
+                            {% if offer.unitProvided == 1 %}
+                                1 unité
+                            {% else %}
+                                {{ offer.unitProvided }} unités
+                            {% endif %}
+                        </div>
+                    </div>
 
-                    <div class="pricing-units">
-                        {% if offer.unitProvided == 1 %}
-                            1 unité
-                        {% else %}
-                            {{ offer.unitProvided }} unités
+                    <div class="pricing-body">
+                        {# price first, then description #}
+                        <div class="pricing-price">
+                            <span class="amount">{{ offer.discount * offer.unitProvided }}€ / mois</span>
+                            <small>TVA non incluse</small>
+                        </div>
+
+                        {% if offer.description %}
+                            <p class="pricing-description">{{ offer.description }}</p>
                         {% endif %}
                     </div>
 
-                    <div class="pricing-price">
-                        {{ offer.discount * offer.unitProvided }}€ / mois
+                    <div class="pricing-actions">
+                        <a href="{{ path('app_booking_new') }}" class="btn-primary">Choisir</a>
                     </div>
-
-                    <a href="{{ path('app_booking_new') }}" class="btn-primary">
-                        Choisir
-                    </a>
                 </div>
             {% endfor %}
         </div>
