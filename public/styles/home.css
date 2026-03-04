@@ -156,18 +156,6 @@
     font-size: 1.1rem;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-    .services-container {
-        flex-direction: column;
-        gap: 3rem;
-    }
-
-    .services-cards {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    }
-}
-
 /* =========================
    PRICING
 ========================= */
@@ -182,23 +170,61 @@
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
     gap: 2rem;
     margin-top: 3rem;
+    align-items: stretch;
+    grid-auto-rows: 1fr; /* make all grid rows equal height so cards match */
 }
 
 .pricing-card {
+    /* removed fixed height to let content flow naturally */
     background: white;
     padding: 2rem;
     border-radius: 14px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+    box-shadow: 0 10px 30px rgba(0, 34, 255, 0.5);
     transition: 0.25s ease;
+
+    /* make the card a column flex container so we can push the CTA to the bottom */
+    display: flex;
+    flex-direction: column;
+
+    /* make cards taller on large screens */
+    min-height: 350px; /* augmenté pour un rendu plus imposant */
+    height: 100%; /* fill grid cell */
 }
 
-.pricing-card:hover {
-    transform: translateY(-6px);
+/* ensure the actions (CTA) stick to the bottom */
+.pricing-actions{
+    margin-top: auto;
+    display:flex;
+    justify-content:center; /* centré horizontalement */
+    align-items:center;
+}
+
+/* give the CTA a pleasant minimum width inside cards */
+.pricing-actions .btn-primary{
+    min-width: 140px;
+}
+
+/* Responsive adjustments for card height */
+@media (max-width: 1800px) {
+    .pricing-card { min-height: 1000px; }
+}
+@media (max-width: 1400px) {
+    .pricing-card { min-height: 860px; }
+}
+@media (max-width: 1200px) {
+    .pricing-card { min-height: 720px; }
+}
+@media (max-width: 1000px) {
+    .pricing-card { min-height: 560px; }
+}
+@media (max-width: 720px) {
+    .pricing-grid { grid-auto-rows: auto; } /* remove equal-row forcing on small screens */
+    .pricing-card { min-height: auto; height: auto; }
 }
 
 .pricing-title {
     font-weight: 700;
-    font-size: 1.2rem;
+    font-size: 2rem;
     margin-bottom: 0.5rem;
 }
 
@@ -208,10 +234,34 @@
 }
 
 .pricing-price {
-    font-size: 1.6rem;
-    font-weight: 700;
-    color: #3b82f6;
-    margin-bottom: 1.5rem;
+    margin-top: 0.2rem; /* petit espace après title */
+    margin-bottom: 0.6rem; /* espace avant description */
+    font-size: 1.7rem;
+    font-weight: 800;
+    color: #1f6feb;
+}
+
+.pricing-description {
+    margin: 0 0 1rem;             /* espace dessous */
+    padding: 0.8rem 0.75rem;      /* respirer */
+    border-top: 1px solid rgba(15,23,42,0.03);   /* separateur plus subtil */
+    border-bottom: 0px solid rgba(15,23,42,0.02);/* pas de ligne en dessous */
+    background: rgba(15,23,42,0.01);             /* fond très subtil */
+    color: #374151;
+    font-size: 0.98rem;
+    line-height: 1.5;
+    border-radius: 4px;
+}
+
+/* Force le small sous le prix, avec priorité si nécessaire */
+.pricing-price small,
+.pricing-card .pricing-price small,
+.pricing-card small,
+.price small {
+    display: block !important;            /* force le small sur une nouvelle ligne */
+    margin-top: 0.35rem !important;       /* espacement au-dessus du small */
+    font-size: 0.85rem !important;        /* légèrement plus petit */
+    color: #6b7280 !important;            /* couleur atténuée */
 }
 
 .section-title {
