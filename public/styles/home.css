@@ -179,7 +179,7 @@
     background: white;
     padding: 2rem;
     border-radius: 14px;
-    box-shadow: 0 10px 30px rgba(0, 34, 255, 0.5);
+    box-shadow: 0 10px 20px rgba(0, 34, 255, 0.5);
     transition: 0.25s ease;
 
     /* make the card a column flex container so we can push the CTA to the bottom */
@@ -189,6 +189,11 @@
     /* make cards taller on large screens */
     min-height: 350px; /* augmenté pour un rendu plus imposant */
     height: 100%; /* fill grid cell */
+}
+
+.pricing-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 30px rgba(0, 34, 255, 0.5);
 }
 
 /* ensure the actions (CTA) stick to the bottom */
