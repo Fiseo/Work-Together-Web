@@ -18,7 +18,7 @@ final class MainController extends ModelController
         if ($this->getUser() && !($this->getUser() instanceof Client))
             return $this->redirectToRoute('app_logout');
 
-        $data = new MainData();
+        $data = new MainData(); //TODO : mettre les données
         return $this->render('main/index.html.twig', [
             'data' => $data,
             'offers' => $oRepo->findAll()
