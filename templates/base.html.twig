@@ -13,26 +13,46 @@
         {% endblock %}
     </head>
     <body>
-    <nav>
-        <a href="{{ path('app_dashboard') }}" class="nav-logo">Work<span>Together</span></a>
-        <ul>
-            {% if app.user %}
-                <li><a href="{{ path('app_user_booking') }}">Réservations</a></li>
-                <li><a href="{{ path('app_user_unit') }}">Unité</a></li>
-                <li><a href="{{ path('app_user') }}" class="nav-highlight">{{ app.user.username }}</a></li>
-            {% else %}
-                <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
-                <li><a href="{{ path('app_login') }}" class="nav-highlight">Se connecter</a></li>
-            {% endif %}
-        </ul>
-    </nav>
-
+    {% block navbar %}
+        <nav>
+            <a href="{{ path('app_dashboard') }}" class="nav-logo">Work<span>Together</span></a>
+            <ul>
+                {% if app.user %}
+                    <li><a href="{{ path('app_user_booking') }}">Réservations</a></li>
+                    <li><a href="{{ path('app_user_unit') }}">Unité</a></li>
+                    <li><a href="{{ path('app_user') }}" class="nav-highlight">{{ app.user.username }}</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+                    <li><a href="{{ path('app_login') }}" class="nav-highlight">Se connecter</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endblock %}
+    {% block flash %}
+        {% if block('navbar') %}
+            <div class="flash-container flash-container-nav">
+        {% else %}
+            <div class="flash-container">
+        {% endif%}
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-message flash-{{ label }}" role="alert">
+                        <span class="flash-icon"></span>
+                        <span class="flash-content">{{ message|raw }}</span>
+                        <button class="flash-close" type="button" aria-label="Fermer">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endblock %}
     <main>
         {% block body %}
         {% endblock %}
     </main>
+    {% block footer %}
         <footer>
             <span>&copy; {{ "now"|date("Y") }} WorkTogether Data Solutions &middot; Laval, FR</span>
         </footer>
+    {% endblock %}
     </body>
 </html>
