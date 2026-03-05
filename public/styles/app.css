@@ -178,6 +178,10 @@ footer {
    OTHER
 ========================= */
 
+.link {
+    color: blue;
+}
+
 .small-link {
     top: 0.5rem;
     font-weight: 700;

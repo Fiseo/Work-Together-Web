@@ -145,7 +145,7 @@ final class BookingController extends ModelController
         $pay->setPriceAfter($after);
         $pay->setPriceTVA($after*1.2);
 
-        return $this->render('booking/pay.html.twig', [ //TODO : Twig
+        return $this->render('booking/pay.html.twig', [
             'form' => $form,
             'pay' => $pay,
         ]);
