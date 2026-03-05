@@ -22,10 +22,12 @@ class BookingType extends AbstractType
             ->add('offer', EntityType::class, [
                 'class' => Offer::class,
                 'choice_label' => 'label',
-                'choices' => $offer
+                'choices' => $offer,
+                'label' => 'Offre :',
             ])
             ->add('isMonthly', CheckboxType::class, [
                 'required' => false,
+                'label' => 'Abonnement Annuel :',
             ])
         ;
     }

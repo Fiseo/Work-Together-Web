@@ -26,6 +26,7 @@ final class BookingController extends ModelController
         EntityManagerInterface $em,
     ): Response
     {
+        //TODO : Passer un argument non obligatoire en get qui permet de préremplir le choix d'offre
         if (!$this->isConnected())
             return $this->kick(redirect: 'app_login', type: 'info', message: 'Veuillez vous connecter avant d\'effectuer une commande.');
 
@@ -55,6 +56,7 @@ final class BookingController extends ModelController
             else
                 $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 year');
             $booking->setEnd($end);
+            $booking->setIsMonthly(!$booking->isMonthly());
             $em->persist($booking);
 
             $units = $us->getAvailableUnits($booking->getOffer()->getUnitProvided());
