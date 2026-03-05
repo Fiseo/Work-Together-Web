@@ -17,7 +17,9 @@ final class UserController extends ModelController
     #[Route('/', name: 'app_user')]
     public function index(): Response
     {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
+
         /** @var Client $user */
         $user = $this->getUser();
 
@@ -37,7 +39,9 @@ final class UserController extends ModelController
         EntityManagerInterface $em,
     ): Response
     {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
+
         /** @var Client $user */
         $user = $this->getUser();
 
@@ -75,7 +79,9 @@ final class UserController extends ModelController
     #[Route('/booking', name: 'app_user_booking')]
     public function booking(): Response
     {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
+
         /** @var Client $user */
         $user = $this->getUser();
 
@@ -87,7 +93,9 @@ final class UserController extends ModelController
     #[Route('/unit', name: 'app_user_unit')]
     public function unit():Response
     {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
+
         /** @var Client $user */
         $user = $this->getUser();
 

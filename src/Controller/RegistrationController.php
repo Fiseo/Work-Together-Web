@@ -23,6 +23,9 @@ class RegistrationController extends ModelController
         EntityManagerInterface      $em,
         ValidatorInterface          $validator): Response
     {
+        if ($this->isConnected())
+            return $this->kick(sendMessage: false);
+
         $form = $this->createForm(RegistrationFormType::class);
         $form->handleRequest($request);
 
@@ -66,8 +69,8 @@ class RegistrationController extends ModelController
                 $em->persist($user);
                 $em->flush();
                 $this->addFlash(
-                    'info',
-                    '👍'
+                    'success',
+                    'Votre compte a bien été créé.'
                 );
                 return $security->login($user, 'form_login', 'main');
             }

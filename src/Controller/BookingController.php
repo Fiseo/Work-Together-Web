@@ -26,7 +26,8 @@ final class BookingController extends ModelController
         EntityManagerInterface $em,
     ): Response
     {
-        $this->needConnection(redirect: 'app_login', type: 'info', message: 'Veuillez vous connecter avant d\'effectuer une commande.');
+        if (!$this->isConnected())
+            return $this->kick(redirect: 'app_login', type: 'info', message: 'Veuillez vous connecter avant d\'effectuer une commande.');
 
         $offerList = $or->findOfferGreaterThan($us->getNumberUnit());
         if ($offerList->isEmpty()) {
@@ -95,13 +96,14 @@ final class BookingController extends ModelController
         Request                $request,
         EntityManagerInterface $em,
     ):Response {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
 
         /** @var Client $user */
         $user = $this->getUser();
 
         if ($user->getId() !== $booking->getClient()->getId())
-            $this->kick();
+            return $this->kick();
 
         $form = $this->createForm(PayType::class);
 
@@ -150,13 +152,14 @@ final class BookingController extends ModelController
     #[Route('/{booking}/renewable', name: 'app_booking_renewable')]
     public function reverseRenewable(Booking $booking, EntityManagerInterface $em): void
     {
-        $this->needConnection(sendMessage: false);
+        if (!$this->isConnected())
+            return;
 
         /** @var Client $user */
         $user = $this->getUser();
 
         if ($user->getId() !== $booking->getClient()->getId())
-            $this->kick(sendMessage: false);
+            return;
 
         $booking->setIsRenewable(!$booking->isRenewable());
         $em->persist($booking);
@@ -168,7 +171,8 @@ final class BookingController extends ModelController
     public function details(
         Booking $booking,
     ):Response {
-        $this->needConnection();
+        if (!$this->isConnected())
+            return $this->kick();
 
         /** @var Client $user */
         $user = $this->getUser();
