@@ -51,12 +51,12 @@ final class BookingController extends ModelController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $booking->setIsMonthly(!$booking->isMonthly());
             if ($booking->isMonthly())
                 $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 month');
             else
                 $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 year');
             $booking->setEnd($end);
-            $booking->setIsMonthly(!$booking->isMonthly());
             $em->persist($booking);
 
             $units = $us->getAvailableUnits($booking->getOffer()->getUnitProvided());
@@ -87,7 +87,7 @@ final class BookingController extends ModelController
             $this->addFlash('error', $error->getMessage());
         }
 
-        return $this->render('booking/new.html.twig', [ //TODO : Twig
+        return $this->render('booking/new.html.twig', [
             'form' => $form,
         ]);
     }
