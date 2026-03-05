@@ -86,7 +86,7 @@ final class UserController extends ModelController
         $user = $this->getUser();
 
         return $this->render('user/booking.html.twig', [ //TODO : Twig
-            'booking' => $user->getBookings(),
+            'bookings' => $user->getBookings()
         ]);
     }
 
