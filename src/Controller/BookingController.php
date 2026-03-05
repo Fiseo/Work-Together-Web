@@ -152,21 +152,22 @@ final class BookingController extends ModelController
     }
 
     #[Route('/{booking}/renewable', name: 'app_booking_renewable')]
-    public function reverseRenewable(Booking $booking, EntityManagerInterface $em): void
+    public function reverseRenewable(Booking $booking, EntityManagerInterface $em): Response
     {
         if (!$this->isConnected())
-            return;
+            return $this->kick();
 
         /** @var Client $user */
         $user = $this->getUser();
 
         if ($user->getId() !== $booking->getClient()->getId())
-            return;
+            return $this->kick();
 
         $booking->setIsRenewable(!$booking->isRenewable());
         $em->persist($booking);
         $em->flush();
         $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
+        return $this->redirectToRoute('app_user_booking');
     }
 
     #[Route('/{booking}/', name: 'app_booking_details')]
