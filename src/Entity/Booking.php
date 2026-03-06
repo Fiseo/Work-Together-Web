@@ -219,6 +219,5 @@ class Booking
         else if (!$this->isPayed())
             return BookingStatus::NeedPayement;
         return BookingStatus::Null;
-
     }
 }
