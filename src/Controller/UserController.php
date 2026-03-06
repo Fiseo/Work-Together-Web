@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Client;
+use App\Entity\Company;
 use App\Entity\Individual;
 use App\Form\CompanyType;
 use App\Form\IndividualType;
@@ -23,19 +24,24 @@ final class UserController extends ModelController
         /** @var Client $user */
         $user = $this->getUser();
 
-        if ($user instanceof Individual)
+        if ($user instanceof Individual) {
+            /** @var Individual $user */
             return $this->render('user/individualIndex.html.twig', [ //TODO : Twig
                 'individual' => $user,
                 'nbrActiveBooking' => $user->getActiveBookings()->count(),
                 'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
                 'nbrActiveUnit' => $user->getActiveUnits()->count(),
             ]);
-        else
+        }
+        else {
+            /** @var Company $user */
             return $this->render('user/companyIndex.html.twig', [ //TODO : Twig
                 'company' => $user,
-                'nbrBooking' => $user->getBookings()->count(),
-                'nbrUnit' => $user->getUnits()->count(),
+                'nbrActiveBooking' => $user->getActiveBookings()->count(),
+                'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
+                'nbrActiveUnit' => $user->getActiveUnits()->count(),
             ]);
+        }
     }
 
     #[Route('/edit', name: 'app_user_edit')]
