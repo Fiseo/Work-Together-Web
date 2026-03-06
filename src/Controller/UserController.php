@@ -97,8 +97,9 @@ final class UserController extends ModelController
         /** @var Client $user */
         $user = $this->getUser();
 
-        return $this->render('user/booking.html.twig', [ //TODO : Twig
-            'bookings' => $user->getBookings()
+        return $this->render('user/booking.html.twig', [
+            'activeBooking' => $user->getBookingsFilter(statusUnwanted:BookingStatus::Finished),
+            'finishedBooking' => $user->getBookingsFilter(BookingStatus::Finished),
         ]);
     }
 
