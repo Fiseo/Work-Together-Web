@@ -162,7 +162,7 @@ class Booking
     /**
      * @return Collection<int, Unit>
      */
-    public function getCurrentUnits(): Collection
+    public function getUnits(): Collection
     {
         $result = [];
         foreach ($this->getBookingUnits() as $bookingUnit) {
