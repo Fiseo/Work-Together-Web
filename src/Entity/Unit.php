@@ -168,7 +168,7 @@ class Unit
         {
             foreach ($this->getBookingUnits() as $bookingUnit) {
                 if ($bookingUnit->getStart() < $now && $now < $bookingUnit->getEnd())
-                    return $bookingUnit;
+                    return $bookingUnit->getBooking();
             }
         }
         return null;
