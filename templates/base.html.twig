@@ -20,6 +20,7 @@
                 {% if app.user %}
                     <li><a href="{{ path('app_user_booking') }}">Réservations</a></li>
                     <li><a href="{{ path('app_user_unit') }}">Unité</a></li>
+                    <li><a href="{{ path('app_logout') }}" class="small-link logout">Se déconnecter</a></li>
                     <li><a href="{{ path('app_user') }}" class="nav-highlight">{{ app.user.username }}</a></li>
                 {% else %}
                     <li><a href="{{ path('app_register') }}">S'inscrire</a></li>

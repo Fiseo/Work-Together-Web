@@ -182,6 +182,19 @@ footer {
     color: blue;
 }
 
+.logout {
+    color: darkred;
+    font-weight: 500;
+    padding: 8px 14px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.logout:hover{
+    background-color: #650000;
+    color: red;
+}
+
 .small-link {
     top: 0.5rem;
     font-weight: 700;
