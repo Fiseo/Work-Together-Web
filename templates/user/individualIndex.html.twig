@@ -1,9 +1,85 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-{% endblock %}
 
 {% block title %}
+    Votre compte
+{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/profil.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="profile-card">
+
+        <h1>Mon profil</h1>
+
+        <div class="profile-grid">
+
+            {# ── Colonne gauche : informations ── #}
+            <div class="profile-col">
+
+                <div class="profile-row">
+                    <div class="profile-field">
+                        <span class="profile-field__label">Nom</span>
+                        <div class="profile-field__value">{{ individual.fullName }}</div>
+                    </div>
+                </div>
+
+                <div class="profile-row">
+                    <div class="profile-field">
+                        <span class="profile-field__label">Email</span>
+                        <div class="profile-field__value">{{ individual.email }}</div>
+                    </div>
+                </div>
+
+                <div class="profile-row">
+                    <div class="profile-field">
+                        <span class="profile-field__label">Date de naissance</span>
+                        <div class="profile-field__value">{{ individual.birthDate|date('d/m/Y') }}</div>
+                    </div>
+                    <div class="profile-field">
+                        <span class="profile-field__label">Civilité</span>
+                        <div class="profile-field__value">{{ individual.civility.label }}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            {# ── Séparateur ── #}
+            <div class="profile-divider"></div>
+
+            {# ── Colonne droite : statistiques ── #}
+            <div class="profile-col profile-col--right">
+
+                <div class="profile-row">
+                    <div class="profile-stat">
+                        <span class="profile-stat__label">Réservations actives</span>
+                        <div class="profile-stat__value">{{ nbrActiveBooking }}</div>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="profile-stat__label">Unités actives</span>
+                        <div class="profile-stat__value">{{ nbrActiveUnit }}</div>
+                    </div>
+                </div>
+
+                <div class="profile-row">
+                    <div class="profile-stat">
+                        <span class="profile-stat__label">Réservations terminées</span>
+                        <div class="profile-stat__value">{{ nbrFinishedBooking  }}</div>
+                    </div>
+                    <div class="profile-stat">
+                        <span class="profile-stat__label">IDK for now</span>
+                        <div class="profile-stat__value">{{ 0 }}</div>
+                    </div>
+                </div>
+
+                <a href="{{ path('app_user_edit') }}" class="profile-btn">Modifier mon profil</a>
+
+            </div>
+
+        </div>
+
+    </div>
 {% endblock %}

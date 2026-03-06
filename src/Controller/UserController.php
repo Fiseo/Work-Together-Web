@@ -26,10 +26,15 @@ final class UserController extends ModelController
         if ($user instanceof Individual)
             return $this->render('user/individualIndex.html.twig', [ //TODO : Twig
                 'individual' => $user,
+                'nbrActiveBooking' => $user->getActiveBookings()->count(),
+                'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
+                'nbrActiveUnit' => $user->getActiveUnits()->count(),
             ]);
         else
             return $this->render('user/companyIndex.html.twig', [ //TODO : Twig
                 'company' => $user,
+                'nbrBooking' => $user->getBookings()->count(),
+                'nbrUnit' => $user->getUnits()->count(),
             ]);
     }
 

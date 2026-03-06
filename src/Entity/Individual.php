@@ -133,4 +133,9 @@ class Individual extends Client
 
         return $this;
     }
+
+    public function getFullName(): ?string
+    {
+        return $this->lastName.' '.$this->firstName;
+    }
 }

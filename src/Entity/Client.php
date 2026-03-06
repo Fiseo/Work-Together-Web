@@ -64,4 +64,37 @@ abstract class Client extends User
                 $result[] = $unit;
         return new ArrayCollection($result);
     }
+
+    public function getActiveBookings(): Collection
+    {
+        $now = new \DateTime();
+        $result = [];
+        foreach ($this->getBookings() as $booking){
+            if ($booking->isPayed() && $booking->getStart() <= $now && $booking->getEnd() >= $now)
+                $result[] = $booking;
+        }
+        return new ArrayCollection($result);
+    }
+
+    public function getFinishedBookings(): Collection
+    {
+        $now = new \DateTime();
+        $result = [];
+        foreach ($this->getBookings() as $booking){
+            if ($booking->isPayed() && $booking->getEnd() <= $now)
+                $result[] = $booking;
+        }
+        return new ArrayCollection($result);
+    }
+
+    public function getActiveUnits(): Collection
+    {
+        $result = [];
+        foreach ($this->getActiveBookings() as $booking){
+            foreach ($booking->getCurrentUnits() as $unit){
+                $result[] = $unit;
+            }
+        }
+        return new ArrayCollection($result);
+    }
 }
