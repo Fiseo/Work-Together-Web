@@ -65,6 +65,9 @@ abstract class Client extends User
         return new ArrayCollection($result);
     }
 
+    /**
+     * @return Collection<int, Booking>
+     */
     public function getActiveBookings(): Collection
     {
         $now = new \DateTime();
@@ -76,6 +79,9 @@ abstract class Client extends User
         return new ArrayCollection($result);
     }
 
+    /**
+     * @return Collection<int, Booking>
+     */
     public function getFinishedBookings(): Collection
     {
         $now = new \DateTime();
@@ -87,6 +93,9 @@ abstract class Client extends User
         return new ArrayCollection($result);
     }
 
+    /**
+     * @return Collection<int, Unit>
+     */
     public function getActiveUnits(): Collection
     {
         $result = [];
