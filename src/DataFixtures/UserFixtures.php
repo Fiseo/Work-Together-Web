@@ -7,9 +7,10 @@ use App\Entity\Company;
 use App\Entity\Individual;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 
-class UserFixtures extends Fixture
+class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
@@ -41,5 +42,11 @@ class UserFixtures extends Fixture
         $manager->persist($c);
 
         $manager->flush();
+    }
+
+    public function getDependencies(): array
+    {
+        return [CivilityFixtures::class];
+
     }
 }
