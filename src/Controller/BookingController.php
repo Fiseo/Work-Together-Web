@@ -128,7 +128,7 @@ final class BookingController extends ModelController
 
             $em->flush();
 
-            $this->kick(
+            return $this->kick(
                 'app_user_booking',
                 type:'success',
                 message: 'Le paiement a bien été pris en compte.
@@ -144,6 +144,11 @@ final class BookingController extends ModelController
             $after = $after*0.9;
         $pay->setPriceAfter($after);
         $pay->setPriceTVA($after*1.2);
+
+        $errors = $form->getErrors(true);
+        foreach ($errors as $error) {
+            $this->addFlash('error', $error->getMessage());
+        }
 
         return $this->render('booking/pay.html.twig', [
             'form' => $form,
