@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\UnitStatus;
 use App\Repository\UnitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -161,16 +162,30 @@ class Unit
         return false;
     }
 
-    public function getCurrentBooking(): ?Booking
+    public function getCurrentBookingUnit(): ?BookingUnit
     {
         $now = new \DateTime();
         if (!$this->getBookingUnits()->isEmpty())
         {
             foreach ($this->getBookingUnits() as $bookingUnit) {
                 if ($bookingUnit->getStart() < $now && $now < $bookingUnit->getEnd())
-                    return $bookingUnit->getBooking();
+                    return $bookingUnit;
             }
         }
         return null;
+    }
+
+    public function getCurrentBooking(): ?Booking
+    {
+        if ($this->getCurrentBookingUnit() !== null)
+            return $this->getCurrentBookingUnit()->getBooking();
+        return null;
+    }
+
+    public function getStatus(): UnitStatus
+    {
+        if ($this->isHaveProblem())
+            return UnitStatus::Incident;
+        return UnitStatus::Ok;
     }
 }

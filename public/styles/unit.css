@@ -10,22 +10,17 @@
     font-weight: 600;
 }
 
-.badge--monthly {
-    background: #eff6ff;
-    color: #2563eb;
-}
-
-.badge--yearly {
+.badge--ok {
     background: #f0fdf4;
     color: #16a34a;
 }
 
-.badge--active {
-    background: #f0fdf4;
-    color: #16a34a;
+.badge--incident {
+    background: #fffbeb;
+    color: #8c0000;
 }
 
-.badge--pending {
+.badge--maintenance {
     background: #fffbeb;
     color: #d97706;
 }

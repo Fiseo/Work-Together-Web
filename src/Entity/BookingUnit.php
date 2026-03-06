@@ -82,4 +82,22 @@ class BookingUnit
 
         return $this;
     }
+
+    public function getLastServiceCall(): ?ServiceCall
+    {
+        $serviceCalls = $this->getUnit()->getServiceCalls();
+        $filtered = [];
+        foreach ($serviceCalls as $serviceCall) {
+            if ($this->getStart() >= $serviceCall->getDate() && $serviceCall->getDate() <= $this->getEnd())
+                $filtered[] = $serviceCall;
+        }
+
+        $closest = null;
+        foreach ($filtered as $serviceCall) {
+            if ($closest === null || $serviceCall->getDate() > $closest->getDate()) {
+                $closest = $serviceCall;
+            }
+        }
+        return $closest;
+    }
 }

@@ -1,0 +1,202 @@
+/* =========================
+   PAGE HEADER
+========================= */
+
+.page-header {
+    max-width: 1100px;
+    margin: 0 auto 2rem auto;
+    padding-top: 5rem;
+}
+
+.page-header h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+/* =========================
+   CARD WRAPPER
+========================= */
+
+.booking-card {
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.08);
+    max-width: 1100px;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* =========================
+   DATA GRID
+========================= */
+
+.data-grid {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+}
+
+.data-grid thead tr {
+    background: #f9fafb;
+    border-bottom: 2px solid #e5e7eb;
+}
+
+.data-grid th {
+    padding: 14px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #6b7280;
+}
+
+.data-grid tbody .data-row {
+    border-bottom: 1px solid #f3f4f6;
+    transition: background 0.15s ease;
+}
+
+.data-grid tbody .data-row:last-child {
+    border-bottom: none;
+}
+
+.data-grid tbody .data-row:hover {
+    background: #f9fafb;
+}
+
+.data-grid td {
+    padding: 16px 20px;
+    color: #111827;
+    font-weight: 500;
+    vertical-align: middle;
+}
+
+.data-grid th,
+.data-grid td {
+    text-align: center;
+}
+
+.data-grid th,
+.data-grid td {
+    border-right: 1px solid #e5e7eb;
+}
+
+.data-grid th:last-child,
+.data-grid td:last-child {
+    border-right: none;
+}
+
+/* =========================
+   ACTION BUTTON
+========================= */
+
+.btn-action {
+    display: inline-block;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-action:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(37,99,235,0.3);
+}
+
+.red-action {
+    background: linear-gradient(135deg, #c81515, #b40000);
+    color: white;
+}
+
+.green-action {
+    background: linear-gradient(135deg, #3f9e3f, #1b6a1b);
+    color: white;
+}
+
+.blue-action {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+}
+
+
+
+/* =========================
+   EMPTY STATE
+========================= */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 5rem 2rem;
+    gap: 1rem;
+}
+
+.empty-state__icon {
+    font-size: 3rem;
+    opacity: 0.25;
+}
+
+.empty-state__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+}
+
+.empty-state__sub {
+    font-size: 0.88rem;
+    color: #6b7280;
+    text-align: center;
+}
+
+.empty-state__btn {
+    margin-top: 0.5rem;
+    display: inline-block;
+    padding: 10px 24px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white;
+    transition: all 0.25s ease;
+}
+
+.empty-state__btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(37,99,235,0.3);
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+    .data-grid thead { display: none; }
+
+    .data-grid tbody .data-row {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem;
+        border-bottom: 1px solid #e5e7eb;
+    }
+
+    .data-grid td {
+        padding: 2px 0;
+        font-size: 0.88rem;
+    }
+
+    .data-grid td::before {
+        content: attr(data-label) " : ";
+        font-weight: 600;
+        color: #6b7280;
+        font-size: 0.78rem;
+    }
+}

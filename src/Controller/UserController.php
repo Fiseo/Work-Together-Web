@@ -112,8 +112,8 @@ final class UserController extends ModelController
         /** @var Client $user */
         $user = $this->getUser();
 
-        return $this->render('user/unit.html.twig', [ //TODO : Twig
-            'unit' => $user->getUnits(),
+        return $this->render('user/unit.html.twig', [
+            'units' => $user->getUnits(),
         ]);
     }
 }
