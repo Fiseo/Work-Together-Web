@@ -165,7 +165,7 @@ class Booking
     {
         $result = [];
         foreach ($this->getBookingUnits() as $bookingUnit) {
-            if ($bookingUnit->getEnd() === $this->getEnd()) {
+            if ($bookingUnit->getEnd()->format('Y-m-d') === $this->getEnd()->format('Y-m-d')) {
                 $result[] = $bookingUnit->getUnit();
             }
         }
