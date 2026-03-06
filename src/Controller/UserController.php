@@ -26,7 +26,7 @@ final class UserController extends ModelController
 
         if ($user instanceof Individual) {
             /** @var Individual $user */
-            return $this->render('user/individualIndex.html.twig', [ //TODO : Twig
+            return $this->render('user/individualIndex.html.twig', [
                 'individual' => $user,
                 'nbrActiveBooking' => $user->getActiveBookings()->count(),
                 'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
@@ -35,7 +35,7 @@ final class UserController extends ModelController
         }
         else {
             /** @var Company $user */
-            return $this->render('user/companyIndex.html.twig', [ //TODO : Twig
+            return $this->render('user/companyIndex.html.twig', [
                 'company' => $user,
                 'nbrActiveBooking' => $user->getActiveBookings()->count(),
                 'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
@@ -76,12 +76,12 @@ final class UserController extends ModelController
         }
 
         if ($user instanceof Individual)
-            return $this->render('user/individualEdit.html.twig', [ //TODO : Twig
+            return $this->render('user/individualEdit.html.twig', [
                 'individual' => $user,
                 'form' => $form
             ]);
         else
-            return $this->render('user/companyEdit.html.twig', [ //TODO : Twig
+            return $this->render('user/companyEdit.html.twig', [
                 'company' => $user,
                 'form' => $form
             ]);
