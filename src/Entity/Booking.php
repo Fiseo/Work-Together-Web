@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BookingStatus;
 use App\Repository\BookingRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -206,5 +207,18 @@ class Booking
         $this->label = $label;
 
         return $this;
+    }
+
+    public function getStatus(): BookingStatus
+    {
+        $now = new \DateTime();
+        if ($this->isPayed() && $this->getStart() <= $now && $this->getEnd() >= $now)
+            return BookingStatus::Active;
+        else if ($this->isPayed() && $this->getEnd() <= $now)
+            return BookingStatus::Finished;
+        else if (!$this->isPayed())
+            return BookingStatus::NeedPayement;
+        return BookingStatus::Null;
+
     }
 }

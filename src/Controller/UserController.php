@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Client;
 use App\Entity\Company;
 use App\Entity\Individual;
+use App\Enum\BookingStatus;
 use App\Form\CompanyType;
 use App\Form\IndividualType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -28,18 +29,18 @@ final class UserController extends ModelController
             /** @var Individual $user */
             return $this->render('user/individualIndex.html.twig', [
                 'individual' => $user,
-                'nbrActiveBooking' => $user->getActiveBookings()->count(),
-                'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
-                'nbrActiveUnit' => $user->getActiveUnits()->count(),
+                'nbrActiveBooking' => $user->getBookingsFilter(BookingStatus::Active)->count(),
+                'nbrFinishedBooking' => $user->getBookingsFilter(BookingStatus::Finished)->count(),
+                'nbrActiveUnit' => $user->getUnits()->count(),
             ]);
         }
         else {
             /** @var Company $user */
             return $this->render('user/companyIndex.html.twig', [
                 'company' => $user,
-                'nbrActiveBooking' => $user->getActiveBookings()->count(),
-                'nbrFinishedBooking' => $user->getFinishedBookings()->count(),
-                'nbrActiveUnit' => $user->getActiveUnits()->count(),
+                'nbrActiveBooking' => $user->getBookingsFilter(BookingStatus::Active)->count(),
+                'nbrFinishedBooking' => $user->getBookingsFilter(BookingStatus::Finished)->count(),
+                'nbrActiveUnit' => $user->getUnits()->count(),
             ]);
         }
     }

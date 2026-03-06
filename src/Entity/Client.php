@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BookingStatus;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -54,52 +55,39 @@ abstract class Client extends User
     abstract function removeBooking(Booking $booking): static;
 
     /**
+     * @param BookingStatus|null $statusWanted Return only Bookings with a certain status
+     * @param BookingStatus|null $statusUnwanted Return only Bookings without a certain status
+     * Prioritize wanted over unwanted
+     * @return Collection<int, Booking>
+     */
+    public function getBookingsFilter(?BookingStatus $statusWanted = null, ?BookingStatus $statusUnwanted = null): Collection
+    {
+        if (isset($statusWanted)) {
+            $result = [];
+            foreach ($this->getBookings() as $booking){
+                if ($booking->getStatus() === $statusWanted)
+                    $result[] = $booking;
+            }
+            return new ArrayCollection($result);
+        } else if (isset($statusUnwanted)) {
+            $result = [];
+            foreach ($this->getBookings() as $booking) {
+                if ($booking->getStatus() !== $statusUnwanted)
+                    $result[] = $booking;
+            }
+            return new ArrayCollection($result);
+        } else {
+            return $this->getBookings();
+        }
+    }
+
+    /**
      * @return Collection<int, Unit>
      */
     public function getUnits(): Collection
     {
         $result = [];
-        foreach ($this->getBookings() as $booking)
-            foreach ($booking->getCurrentUnits() as $unit)
-                $result[] = $unit;
-        return new ArrayCollection($result);
-    }
-
-    /**
-     * @return Collection<int, Booking>
-     */
-    public function getActiveBookings(): Collection
-    {
-        $now = new \DateTime();
-        $result = [];
-        foreach ($this->getBookings() as $booking){
-            if ($booking->isPayed() && $booking->getStart() <= $now && $booking->getEnd() >= $now)
-                $result[] = $booking;
-        }
-        return new ArrayCollection($result);
-    }
-
-    /**
-     * @return Collection<int, Booking>
-     */
-    public function getFinishedBookings(): Collection
-    {
-        $now = new \DateTime();
-        $result = [];
-        foreach ($this->getBookings() as $booking){
-            if ($booking->isPayed() && $booking->getEnd() <= $now)
-                $result[] = $booking;
-        }
-        return new ArrayCollection($result);
-    }
-
-    /**
-     * @return Collection<int, Unit>
-     */
-    public function getActiveUnits(): Collection
-    {
-        $result = [];
-        foreach ($this->getActiveBookings() as $booking){
+        foreach ($this->getBookingsFilter(BookingStatus::Active) as $booking){
             foreach ($booking->getCurrentUnits() as $unit){
                 $result[] = $unit;
             }
