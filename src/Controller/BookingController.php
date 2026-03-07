@@ -185,8 +185,8 @@ final class BookingController extends ModelController
         /** @var Client $user */
         $user = $this->getUser();
 
-        if ($user->getId() !== $booking->getClient()->getId())
-            $this->kick();
+        if ($user->getId() !== $booking->getClient()->getId() || $booking->getStatus() === BookingStatus::Finished)
+            return $this->kick();
 
         return $this->render('booking/detail.html.twig', [ //TODO : Twig
             'booking' => $booking,
