@@ -6,6 +6,7 @@ use App\Controller\DataModel\Pay;
 use App\Entity\Booking;
 use App\Entity\BookingUnit;
 use App\Entity\Client;
+use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Form\PayType;
 use App\Repository\OfferRepository;
@@ -188,7 +189,7 @@ final class BookingController extends ModelController
         if ($user->getId() !== $booking->getClient()->getId() || $booking->getStatus() === BookingStatus::Finished)
             return $this->kick();
 
-        return $this->render('booking/detail.html.twig', [ //TODO : Twig
+        return $this->render('booking/detail.html.twig', [
             'booking' => $booking,
         ]);
     }
