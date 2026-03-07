@@ -31,7 +31,7 @@
 
         <div class="hero-stats">
             <div class="stat-card">
-                <div class="stat-value">{{ data.availablePercentage }} %</div>
+                <div class="stat-value">{{ data.availablePercentage|number_format(2, ',', ' ') }} %</div>
                 <div class="stat-label">Unités disponibles</div>
             </div>
 

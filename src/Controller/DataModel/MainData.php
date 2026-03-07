@@ -12,9 +12,10 @@ class MainData
         return $this->availablePercentage;
     }
 
-    public function setAvailablePercentage(float $availablePercentage): void
+    public function setAvailablePercentage(float $availablePercentage): static
     {
         $this->availablePercentage = $availablePercentage;
+        return $this;
     }
 
     public function getTotalUnit(): int
@@ -22,9 +23,10 @@ class MainData
         return $this->totalUnit;
     }
 
-    public function setTotalUnit(int $totalUnit): void
+    public function setTotalUnit(int $totalUnit): static
     {
         $this->totalUnit = $totalUnit;
+        return $this;
     }
 
 
