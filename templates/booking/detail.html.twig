@@ -94,9 +94,9 @@
                 <div class="detail-actions">
                     {% if booking.status.value == 'en attente de paiement' %}
                         <a href="{{ path('app_booking_pay', { booking: booking.id }) }}" class="btn-action btn-action--green">Payer</a>
-                        <a href="" class="btn-action btn-action--red">Annuler</a>
+                        <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--red">Annuler</a>
                     {% elseif booking.status.value == 'active' %}
-                        <a href="" class="btn-action btn-action--green">Facture</a>
+                        <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--green">Facture</a>
                         <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action btn-action--red">Arrêter</a>
                     {% endif %}
                 </div>

@@ -68,9 +68,9 @@
                         <td class="data-field" data-label="Action">
                             {% if booking.status.value == 'en attente de paiement' %}
                                 <a href="{{ path('app_booking_pay', { booking: booking.id} ) }}" class="btn-action green-action">Payer</a>
-                                <a href="" class="btn-action red-action">Annuler</a> {# TODO: Permettre d'annuler une commande #}
+                                <a href="{{ path('app_yet_to_implement') }}" class="btn-action red-action">Annuler</a> {# TODO: Permettre d'annuler une commande #}
                             {% elseif booking.status.value == 'active' %}
-                                <a href="" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
+                                <a href="{{ path('app_yet_to_implement') }}" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
                                 <a href="{{ path('app_booking_renewable', { booking: booking.id}) }}" class="btn-action red-action">Arrêter</a>
                             {% else %}
                                 <a>-</a>
@@ -118,7 +118,7 @@
                         <td class="data-field" data-label="Début">{{ booking.start|date('d/m/Y') }}</td>
                         <td class="data-field" data-label="Fin">{{ booking.end|date('d/m/Y') }}</td>
                         <td class="data-field" data-label="Action">
-                            <a href="" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
+                            <a href="{{ path('app_yet_to_implement') }}" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
                             <a href="{{ path('app_booking_new') }}" class="btn-action blue-action">Copier</a> {# TODO: Faire la fonction de création de présélection #}
                         </td>
                     </tr>

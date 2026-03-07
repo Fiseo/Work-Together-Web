@@ -24,4 +24,13 @@ final class MainController extends ModelController
             'offers' => $oRepo->findAll()
         ]);
     }
+
+    #[Route('/yet', name: 'app_yet_to_implement')]
+    public function yetToImplement(): Response
+    {
+        return $this->kick(
+            type: 'info',
+            message: 'This feature have yet to be implemented.'
+        );
+    }
 }
