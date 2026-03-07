@@ -88,7 +88,7 @@ abstract class Client extends User
     {
         $result = [];
         foreach ($this->getBookingsFilter(BookingStatus::Active) as $booking){
-            foreach ($booking->getCurrentUnits() as $unit){
+            foreach ($booking->getUnits() as $unit){
                 $result[] = $unit;
             }
         }
