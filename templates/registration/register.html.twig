@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/register.js') }}"></script>
+{% endblock %}
+
+{% block body %}
+
+    {{ form_start(form) }}
+    <h1>Inscription</h1>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword) }}
+            {{ form_widget(form.plainPassword) }}
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username) }}
+        </div>
+        <div class="form-group toggle-group">
+            {{ form_label(form.isCompany) }}
+            <div class="toggle-wrapper">
+                {{ form_widget(form.isCompany) }}
+            </div>
+        </div>
+    </div>
+    <div class="form-row person-field">
+        <div class="form-group">
+            {{ form_label(form.lastName) }}
+            {{ form_widget(form.lastName) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.firstName) }}
+            {{ form_widget(form.firstName) }}
+        </div>
+    </div>
+    <div class="form-row person-field">
+        <div class="form-group">
+            {{ form_label(form.civility) }}
+            {{ form_widget(form.civility) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.birthDate) }}
+            {{ form_widget(form.birthDate) }}
+        </div>
+    </div>
+    <div class="form-row company-field">
+        <div class="form-group">
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.companyRegister) }}
+            {{ form_widget(form.companyRegister) }}
+        </div>
+    </div>
+    <div class="form-row company-field">
+        <div class="form-group">
+            {{ form_label(form.creationDate) }}
+            {{ form_widget(form.creationDate) }}
+        </div>
+    </div>
+    <button type="submit" class="btn">S'inscrire</button>
+    <a href="{{ path('app_login') }}" class="small-link"><small>Déjà un compte ? Connecter vous !</small></a>
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block topOfMain %}
+    {% embed 'components/_returnBtn.html.twig' %}{% endembed %}
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}

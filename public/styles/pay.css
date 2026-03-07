@@ -1,0 +1,45 @@
+/* =========================
+   ORDER SUMMARY
+========================= */
+
+.order-summary__title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+}
+
+.order-summary__list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+}
+
+.order-summary__item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+}
+
+.order-summary__item-label {
+    color: #6b7280;
+    font-weight: 500;
+}
+
+.order-summary__item-value {
+    font-weight: 600;
+    color: #111827;
+}
+
+.order-summary__item--total .order-summary__item-label,
+.order-summary__item--total .order-summary__item-value {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #2563eb;
+}
+
+.order-summary__divider {
+    height: 1px;
+    background: #e5e7eb;
+    margin: 1rem 0;
+}

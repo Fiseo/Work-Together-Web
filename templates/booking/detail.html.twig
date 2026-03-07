@@ -1,0 +1,156 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Réservation — {{ booking.label }}{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/booking_detail.css') }}">
+{% endblock %}
+
+{% block body %}
+    {%set units = booking.units %}
+
+    <div class="page-header">
+        <a href="{{ path('app_user_booking') }}" class="btn-return">← Retour</a>
+        <h1>{{ booking.label }}</h1>
+    </div>
+
+    {# ── Informations de la réservation ── #}
+    <div class="detail-card">
+
+        <div class="detail-grid">
+
+            {# Colonne gauche #}
+            <div class="detail-col">
+
+                <div class="detail-row">
+                    <div class="detail-field">
+                        <span class="detail-field__label">Offre</span>
+                        <div class="detail-field__value">{{ booking.offer.label }}</div>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-field__label">Facturation</span>
+                        <div class="detail-field__value">
+                            {% if booking.isMonthly %}
+                                <span class="badge badge--monthly">Mensuel</span>
+                            {% else %}
+                                <span class="badge badge--yearly">Annuel</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-field">
+                        <span class="detail-field__label">Date de début</span>
+                        <div class="detail-field__value">{{ booking.start|date('d/m/Y') }}</div>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-field__label">Date de fin</span>
+                        <div class="detail-field__value">{{ booking.end|date('d/m/Y') }}</div>
+                    </div>
+                </div>
+
+                <div class="detail-row">
+                    <div class="detail-field">
+                        <span class="detail-field__label">Renouvellement</span>
+                        <div class="detail-field__value">{{ booking.isRenewable ? 'Oui' : 'Non' }}</div>
+                    </div>
+                    <div class="detail-field">
+                        <span class="detail-field__label">Unités allouées</span>
+                        <div class="detail-field__value">{{ booking.offer.unitProvided }}</div>
+                    </div>
+                </div>
+
+            </div>
+
+            {# Séparateur #}
+            <div class="detail-divider"></div>
+
+            {# Colonne droite #}
+            <div class="detail-col detail-col--right">
+
+                <div class="detail-row">
+                    <div class="detail-stat">
+                        <span class="detail-stat__label">Statut</span>
+                        <div class="detail-stat__value">
+                            {% if booking.status.value == 'active' %}
+                                <span class="badge badge--active">Active</span>
+                            {% elseif booking.status.value == 'en attente de paiement' %}
+                                <span class="badge badge--pending">En attente de paiement</span>
+                            {% elseif booking.status.value == 'terminée' %}
+                                <span class="badge badge--inactive">Terminée</span>
+                            {% else %}
+                                <span class="badge badge--inactive">—</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="detail-stat">
+                        <span class="detail-stat__label">Unités actives</span>
+                        <div class="detail-stat__value detail-stat__value--number">{{ units|length }}</div>
+                    </div>
+                </div>
+
+                <div class="detail-actions">
+                    {% if booking.status.value == 'en attente de paiement' %}
+                        <a href="{{ path('app_booking_pay', { booking: booking.id }) }}" class="btn-action btn-action--green">Payer</a>
+                        <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--red">Annuler</a>
+                    {% elseif booking.status.value == 'active' %}
+                        <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--green">Facture</a>
+                        <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action btn-action--red">Arrêter</a>
+                    {% endif %}
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    {# ── Grid des unités ── #}
+    <div class="page-header page-header--sub">
+        <h2>Unités de la réservation</h2>
+    </div>
+
+    <div class="units-grid">
+        {% for unit in units %}
+            {% set serviceCall = unit.currentBookingUnit.lastServiceCall %}
+            <div class="unit-card">
+
+                <div class="unit-card__header">
+                    <span class="unit-card__name">{{ unit.bay.label }}-{{ unit.label }}</span>
+                    {% if unit.status.value == 'ok' %}
+                        <span class="badge badge--ok">OK</span>
+                    {% elseif unit.status.value == 'incident' %}
+                        <span class="badge badge--incident">Incident</span>
+                    {% elseif unit.status.value == 'maintenance' %}
+                        <span class="badge badge--maintenance">Maintenance</span>
+                    {% else %}
+                        <span class="badge badge--inactive">—</span>
+                    {% endif %}
+                </div>
+
+                <div class="unit-card__body">
+                    <div class="unit-card__field">
+                        <span class="unit-card__field-label">Dernière intervention</span>
+                        <span class="unit-card__field-value">
+                        {% if serviceCall is not null %}
+                            {{ serviceCall.date|date('d/m/Y') }}
+                        {% else %}
+                            <span class="badge badge--inactive">—</span>
+                        {% endif %}
+                    </span>
+                    </div>
+                </div>
+
+            </div>
+        {% else %}
+            <div class="units-empty">
+                <p class="units-empty__icon">📭</p>
+                <p class="units-empty__title">Aucune unité associée</p>
+                <p class="units-empty__sub">Cette réservation ne contient pas encore d'unités.</p>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

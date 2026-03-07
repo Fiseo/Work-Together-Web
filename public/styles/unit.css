@@ -1,0 +1,31 @@
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.badge--ok {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.badge--incident {
+    background: #fffbeb;
+    color: #8c0000;
+}
+
+.badge--maintenance {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.badge--inactive {
+    background: #f3f4f6;
+    color: #6b7280;
+}

@@ -1,0 +1,135 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Paiement
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/form.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/pay.css') }}">
+{% endblock %}
+
+{% block body %}
+    {% set booking = pay.booking %}
+    {{ form_start(form) }}
+
+        <h1>Commande {{ booking.label }}</h1>
+
+        <div class="form-row form-row--two-cols">
+
+            {# ── Colonne gauche ── #}
+            <div class="form-group form-col">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form_label(form.cardNumber) }}
+                        {{ form_widget(form.cardNumber) }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form_label(form.cvv) }}
+                        {{ form_widget(form.cvv) }}
+                    </div>
+                    <div class="form-group">
+                        {{ form_label(form.expiry) }}
+                        {{ form_widget(form.expiry) }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        {{ form_label(form.name) }}
+                        {{ form_widget(form.name) }}
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group toggle-group">
+                        {{ form_label(form.consent,
+                            'J\'accepte le <a href="' ~ asset('consentement_paiement.pdf') ~ '" target="_blank" class="link">consentement de paiement</a>', {
+                            'label_html': true
+                        }) }}
+                        <div class="toggle-wrapper">
+                            {{ form_widget(form.consent) }}
+                        </div>
+                    </div>
+                    <div class="form-group toggle-group">
+                        {{ form_label(form.retractation,
+                            'J\'ai lu et j\'accepte le <a href="' ~ asset('droit_retractation.pdf') ~ '" target="_blank" class="link">droit de rétractation légal</a>', {
+                            'label_html': true
+                        }) }}
+                        <div class="toggle-wrapper">
+                            {{ form_widget(form.retractation) }}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            {# ── Séparateur ── #}
+            <div class="col-divider"></div>
+
+            {# ── Colonne droite ── #}
+            <div class="form-group form-col form-col--right">
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <div class="order-summary">
+
+                            <h2 class="order-summary__title">{{ booking.label }}</h2>
+
+                            <ul class="order-summary__list">
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Type</span>
+                                    <span class="order-summary__item-value">{{ booking.offer.label }}</span>
+                                </li>
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Facturation</span>
+                                    <span class="order-summary__item-value">{{ booking.isMonthly ? 'Par mois' : 'à l\'année' }}</span>
+                                </li>
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Début</span>
+                                    <span class="order-summary__item-value">{{ booking.start|date('d/m/Y') }}</span>
+                                </li>
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Fin</span>
+                                    <span class="order-summary__item-value">{{ booking.end|date('d/m/Y') }}</span>
+                                </li>
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Renouvellement</span>
+                                    <span class="order-summary__item-value">{{ booking.isRenewable ? 'Oui' : 'Non' }}</span>
+                                </li>
+                            </ul>
+
+                            <div class="order-summary__divider"></div>
+
+                            <ul class="order-summary__list">
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Prix HT sans réduction</span>
+                                    <span class="order-summary__item-value">{{ (pay.priceBefore)|number_format(2, ',', ' ') }} €</span>
+                                </li>
+                                <li class="order-summary__item">
+                                    <span class="order-summary__item-label">Prix HT avec réduction</span>
+                                    <span class="order-summary__item-value">{{ (pay.priceAfter)|number_format(2, ',', ' ') }} €</span>
+                                </li>
+                                <li class="order-summary__item order-summary__item--total">
+                                    <span class="order-summary__item-label">Prix TTC</span>
+                                    <span class="order-summary__item-value">{{ (pay.priceTVA)|number_format(2, ',', ' ') }} €</span>
+                                </li>
+                            </ul>
+
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn">Validation</button>
+
+            </div>
+
+        </div>
+
+    {{ form_end(form) }}
+{% endblock %}

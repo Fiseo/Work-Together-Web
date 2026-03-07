@@ -1,0 +1,36 @@
+/* =========================
+   BADGES
+========================= */
+
+.badge {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 0.78rem;
+    font-weight: 600;
+}
+
+.badge--monthly {
+    background: #eff6ff;
+    color: #2563eb;
+}
+
+.badge--yearly {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.badge--active {
+    background: #f0fdf4;
+    color: #16a34a;
+}
+
+.badge--pending {
+    background: #fffbeb;
+    color: #d97706;
+}
+
+.badge--inactive {
+    background: #f3f4f6;
+    color: #6b7280;
+}

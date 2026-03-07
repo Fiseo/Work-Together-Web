@@ -1,0 +1,97 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/grid.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/unit.css') }}">
+{% endblock %}
+
+{% block body %}
+    <div class="page-header">
+        <h1>Mes unités</h1>
+    </div>
+
+    <div class="booking-card">
+        <table class="data-grid">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                {# <th>Position</th> #}
+                <th>Statut</th>
+                <th>Dernière intervention</th>
+                <th>Commande associée</th>
+                {# <th>Type</th>
+                <th>Action</th> #}
+            </tr>
+            </thead>
+            <tbody>
+            {% if units is not empty %}
+                {% for unit in units %}
+                    {% set serviceCall = unit.currentBookingUnit.lastServiceCall %}
+                    <tr class="data-row">
+                        <td data-label="Nom">{{ unit.bay.label }}-{{ unit.label}}</td>
+                        {# <td class="data-field" data-label="Position">{{ unit.bay.label ~-~ unit.label}}</td> #}
+                        <td class="data-field" data-label="Début">
+                            {% if unit.status.value == 'ok' %}
+                                <span class="badge badge--ok">ok</span>
+                            {% elseif unit.status.value == 'incident' %}
+                                <span class="badge badge--incident">Incident</span>
+                            {% elseif unit.status.value == 'maintenance' %}
+                                <span class="badge badge--maintenance">En attente de maintenance</span>
+                            {% else %}
+                                <span class="badge badge--inactive">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="data-field" data-label="Intervention">
+                            {% if serviceCall is not null %}
+                                <a class="badge badge--ok">{{ serviceCall.date|date('d/m/Y') }}</a>
+                            {% else %}
+                                <span class="badge badge--inactive">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="data-field" data-label="Commande">
+                            <a href="{{ path('app_booking_details', { booking: unit.currentBooking.id }) }}" class="link">
+                                {{ unit.currentBooking.label }}
+                            </a>
+                        </td>
+                        {#
+                        <td class="data-field" data-label="Type"></td>
+                        <td class="data-field" data-label="Action">
+                            {% if booking.status.value == 'en attente de paiement' %}
+                            <a href="{{ path('app_booking_pay', { booking: booking.id} ) }}"
+                               class="btn-action green-action">Payer</a>
+                            <a href=""
+                               class="btn-action red-action">Annuler</a>
+                            {% elseif booking.status.value == 'active' %}
+                            <a href=""
+                               class="btn-action green-action">Facture</a>
+                            <a href="{{ path('app_booking_renewable', { booking: booking.id}) }}"
+                               class="btn-action red-action">Arrêter</a>
+                            {% else %}
+                            <a>-</a>
+                            {% endif %}
+                        </td>
+                        #}
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📦</div>
+                            <p class="empty-state__title">Aucune réservation en cours</p>
+                            <p class="empty-state__sub">Vous n'avez pas encore de réservation active.<br>Découvrez nos offres disponibles.</p>
+                            <a href="{{ path('app_dashboard') }}#pricing" class="empty-state__btn">Voir les offres</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}
+
+{% block title %}
+    Mes unités
+{% endblock %}

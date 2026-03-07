@@ -1,17 +1,57 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <title>{% block title %}{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
         {% block stylesheets %}
+            <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+            <link rel="stylesheet" href="{{ asset('styles/flash.css') }}">
         {% endblock %}
 
         {% block javascripts %}
-            {% block importmap %}{{ importmap('app') }}{% endblock %}
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+    {% block navbar %}
+        <nav>
+            <a href="{{ path('app_dashboard') }}" class="nav-logo">Work<span>Together</span></a>
+            <ul>
+                {% if app.user %}
+                    <li><a href="{{ path('app_user_booking') }}">Réservations</a></li>
+                    <li><a href="{{ path('app_user_unit') }}">Unité</a></li>
+                    <li><a href="{{ path('app_logout') }}" class="small-link logout">Se déconnecter</a></li>
+                    <li><a href="{{ path('app_user') }}" class="nav-highlight">{{ app.user.username }}</a></li>
+                {% else %}
+                    <li><a href="{{ path('app_register') }}">S'inscrire</a></li>
+                    <li><a href="{{ path('app_login') }}" class="nav-highlight">Se connecter</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    {% endblock %}
+    {% block flash %}
+        <div class="flash-container {% if block('navbar') %}flash-container-nav{% endif%}">
+            {% for label, messages in app.flashes %}
+                {% for message in messages %}
+                    <div class="flash-message flash-{{ label }}" role="alert">
+                        <span class="flash-icon"></span>
+                        <span class="flash-content">{{ message|raw }}</span>
+                        <button class="flash-close" type="button" aria-label="Fermer">&times;</button>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        </div>
+    {% endblock %}
+    {% block topOfMain %}
+    {% endblock %}
+    <main>
+        {% block body %}
+        {% endblock %}
+    </main>
+    {% block footer %}
+        <footer>
+            <span>&copy; {{ "now"|date("Y") }} WorkTogether Data Solutions &middot; Laval, FR</span>
+        </footer>
+    {% endblock %}
     </body>
 </html>

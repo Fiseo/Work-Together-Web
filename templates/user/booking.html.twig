@@ -1,0 +1,142 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mes réservations
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/booking.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/grid.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header">
+        <h1>Mes réservations en cours</h1>
+    </div>
+
+    <div class="booking-card">
+        <table class="data-grid">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>nombre d'Unités</th>
+                <th>Date de début</th>
+                <th>Date de fin prévu</th>
+                <th>Facturation</th>
+                <th>Statut</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if activeBooking is not empty %}
+                {% for booking in activeBooking %}
+                    <tr class="data-row">
+                        <td data-label="Nom">
+                            <a href="{{ path('app_booking_details', { booking: booking.id }) }}" class="link">
+                                {{ booking.label }}
+                            </a>
+                        </td>
+                        <td class="data-field" data-label="Unités">{{ booking.offer.unitProvided }}</td>
+                        <td class="data-field" data-label="Début">{{ booking.start|date('d/m/Y') }}</td>
+                        <td class="data-field tooltip" data-label="Fin">{{ booking.end|date('d/m/Y') }}
+                            <span class="tooltip-text">
+                                {% if booking.isRenewable %}
+                                    La commande sera renouvelée
+                                {% else %}
+                                    la commande ne sera pas renouvelée
+                                {% endif %}
+                            </span>
+                        </td>
+                        <td class="data-field" data-label="Facturation">
+                            {% if booking.isMonthly %}
+                                <span class="badge badge--monthly">Mensuel</span>
+                            {% else %}
+                                <span class="badge badge--yearly">Annuel</span>
+                            {% endif %}
+                        </td>
+                        <td class="data-field" data-label="Statut">
+                            {% if booking.status.value == 'active' %}
+                                <span class="badge badge--active">Active</span>
+                            {% elseif booking.status.value == 'en attente de paiement' %}
+                                <span class="badge badge--pending">En attente de paiement</span>
+                            {% else %}
+                                <span class="badge badge--inactive">—</span>
+                            {% endif %}
+                        </td>
+                        <td class="data-field" data-label="Action">
+                            {% if booking.status.value == 'en attente de paiement' %}
+                                <a href="{{ path('app_booking_pay', { booking: booking.id} ) }}" class="btn-action green-action">Payer</a>
+                                <a href="{{ path('app_yet_to_implement') }}" class="btn-action red-action">Annuler</a> {# TODO: Permettre d'annuler une commande #}
+                            {% elseif booking.status.value == 'active' %}
+                                <a href="{{ path('app_yet_to_implement') }}" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
+                                <a href="{{ path('app_booking_renewable', { booking: booking.id}) }}" class="btn-action red-action">Arrêter</a>
+                            {% else %}
+                                <a>-</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📦</div>
+                            <p class="empty-state__title">Aucune réservation en cours</p>
+                            <p class="empty-state__sub">Vous n'avez pas encore de réservation active.<br>Découvrez nos offres disponibles.</p>
+                            <a href="{{ path('app_dashboard') }}#pricing" class="empty-state__btn">Voir les offres</a>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="page-header" style="margin-top: 2rem;">
+        <h1>Mes réservations terminées</h1>
+    </div>
+
+    <div class="booking-card">
+        <table class="data-grid">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Unités</th>
+                <th>Date de début</th>
+                <th>Date de fin</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if finishedBooking is not empty %}
+                {% for booking in finishedBooking %}
+                    <tr class="data-row">
+                        <td class="data-field" data-label="Nom">{{ booking.label }}</td>
+                        <td class="data-field" data-label="Unités">{{ booking.offer.unitProvided }}</td>
+                        <td class="data-field" data-label="Début">{{ booking.start|date('d/m/Y') }}</td>
+                        <td class="data-field" data-label="Fin">{{ booking.end|date('d/m/Y') }}</td>
+                        <td class="data-field" data-label="Action">
+                            <a href="{{ path('app_yet_to_implement') }}" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
+                            <a href="{{ path('app_booking_new') }}" class="btn-action blue-action">Copier</a> {# TODO: Faire la fonction de création de présélection #}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">📭</div>
+                            <p class="empty-state__title">Aucune réservation terminée</p>
+                            <p class="empty-state__sub">Vos réservations passées apparaîtront ici.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}
