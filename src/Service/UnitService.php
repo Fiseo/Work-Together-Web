@@ -44,7 +44,7 @@ class UnitService
             return $result;
 
         $availableUnits = $this->unitRepository->findAvailable();
-        for ($i = 1; $i < $number; $i++) {
+        for ($i = 1; $i <= $number; $i++) {
             $result->add($availableUnits->get($i));
         }
         return $result;
