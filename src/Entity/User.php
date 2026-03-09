@@ -16,7 +16,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\DiscriminatorColumn(name: 'type', type: 'string')]
 #[ORM\DiscriminatorMap([
     'admin' => User::class,
-    'Technician' => Technician::class,
+    'technician' => Technician::class,
     'accountant' => Accountant::class,
     'individual' => Individual::class,
     'company' => Company::class,
