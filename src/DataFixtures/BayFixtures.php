@@ -71,7 +71,7 @@ class BayFixtures extends Fixture
         }
 
         $b = (new Bay())
-            ->setLabel('B04');
+            ->setLabel('B05');
         $manager->persist($b);
 
         for ($i = 1; $i <= 42; $i++) {
