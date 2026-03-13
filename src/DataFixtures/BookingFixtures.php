@@ -46,7 +46,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             ->setClient($this->getReference('jane', Individual::class))
             ->setIsRenewable(true)
             ->setLabel(bin2hex(random_bytes(8)))
-            ->setIsMonthly(true)
+            ->setIsMonthly(false)
             ->setOffer($this->getReference('base', Offer::class));
         $manager->persist($booking);
 
