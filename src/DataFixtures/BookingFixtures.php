@@ -21,7 +21,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             ->setStart(new \DateTime('2024-05-18'))
             ->setEnd(new \DateTime('2024-08-18'))
             ->setClient($this->getReference('jane', Individual::class))
-            ->setIsRenewable(true)
+            ->setIsRenewable(false)
             ->setLabel(bin2hex(random_bytes(8)))
             ->setIsMonthly(true)
             ->setOffer($this->getReference('base', Offer::class));
@@ -67,7 +67,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             ->setStart(new \DateTime('2017-05-18'))
             ->setEnd(new \DateTime('2021-05-18'))
             ->setClient($this->getReference('jane', Individual::class))
-            ->setIsRenewable(true)
+            ->setIsRenewable(false)
             ->setLabel(bin2hex(random_bytes(8)))
             ->setIsMonthly(true)
             ->setOffer($this->getReference('startup', Offer::class));
