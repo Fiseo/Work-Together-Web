@@ -27,6 +27,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             ->setEmail('accountant@gmail.com')
             ->setFirstName('Rachel')
             ->setLastName('Prime')
+            ->setCivility($this->getReference('f', Civility::class))
             ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
         $this->addReference('accountant', $a);
         $manager->persist($a);
@@ -36,6 +37,7 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
             ->setEmail('technician@gmail.com')
             ->setFirstName('John')
             ->setLastName('Doe')
+            ->setCivility($this->getReference('h', Civility::class))
             ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
         $this->addReference('technician', $t);
         $manager->persist($t);
