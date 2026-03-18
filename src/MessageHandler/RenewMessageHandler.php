@@ -2,6 +2,7 @@
 
 namespace App\MessageHandler;
 
+use App\Enum\BookingStatus;
 use App\Message\RenewMessage;
 use App\Repository\BookingRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -16,7 +17,7 @@ final class RenewMessageHandler
     ){}
     public function __invoke(RenewMessage $message): void
     {
-        $bookings = $this->repo->findActive();
+        $bookings = $this->repo->findByStatus(BookingStatus::Active);
         foreach ($bookings as $b) {
             if (
                 ($b->getEnd()->format('Y-m-d') == (new \DateTime())->format('Y-m-d'))
@@ -31,10 +32,8 @@ final class RenewMessageHandler
                     $this->em->persist($unit);
                 }
                 $this->em->persist($b);
-                echo 'Modification effectuée'.PHP_EOL;
             }
         }
         $this->em->flush();
-        echo 'Passage'.PHP_EOL;
     }
 }

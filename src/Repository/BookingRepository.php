@@ -22,12 +22,12 @@ class BookingRepository extends ServiceEntityRepository
     /**
      * @return Collection<int, Booking>
      */
-    public function findActive(): Collection
+    public function findByStatus(BookingStatus $status): Collection
     {
         $result = [];
         $bookings = $this->findAll();
         foreach ($bookings as $booking) {
-            if ($booking->getStatus() == BookingStatus::Active) {
+            if ($booking->getStatus() == $status) {
                 $result[] = $booking;
             }
         }
