@@ -2,9 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\BookingStatus;
 use App\Repository\BookingUnitRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -99,5 +98,15 @@ class BookingUnit
             }
         }
         return $closest;
+    }
+
+    public function getStatus(): BookingStatus
+    {
+        $now = (new \DateTime())->format('Y-m-d');
+        if ($this->getStart()->format('Y-m-d') <= $now && $this->getEnd()->format('Y-m-d') >= $now)
+            return BookingStatus::Active;
+        else if ($this->getEnd()->format('Y-m-d') < $now)
+            return BookingStatus::Finished;
+        return BookingStatus::Null;
     }
 }
