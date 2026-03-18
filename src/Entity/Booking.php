@@ -214,7 +214,7 @@ class Booking
         $now = new \DateTime();
         if ($this->isPayed() && $this->getStart() <= $now && $this->getEnd() >= $now)
             return BookingStatus::Active;
-        else if ($this->isPayed() && $this->getEnd() <= $now)
+        else if ($this->isPayed() && $this->getEnd() < $now)
             return BookingStatus::Finished;
         else if (!$this->isPayed())
             return BookingStatus::NeedPayement;
