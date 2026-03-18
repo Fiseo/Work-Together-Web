@@ -211,10 +211,10 @@ class Booking
 
     public function getStatus(): BookingStatus
     {
-        $now = new \DateTime();
-        if ($this->isPayed() && $this->getStart() <= $now && $this->getEnd() >= $now)
+        $now = (new \DateTime())->format('Y-m-d');
+        if ($this->isPayed() && $this->getStart()->format('Y-m-d') <= $now && $this->getEnd()->format('Y-m-d') >= $now)
             return BookingStatus::Active;
-        else if ($this->isPayed() && $this->getEnd() < $now)
+        else if ($this->isPayed() && $this->getEnd()->format('Y-m-d') < $now)
             return BookingStatus::Finished;
         else if (!$this->isPayed())
             return BookingStatus::NeedPayement;
