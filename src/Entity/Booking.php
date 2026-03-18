@@ -220,4 +220,14 @@ class Booking
             return BookingStatus::NeedPayement;
         return BookingStatus::Null;
     }
+
+    public function getActiveBookingUnits(): Collection
+    {
+        $result = [];
+        foreach ($this->getBookingUnits() as $bookingUnit) {
+            if ($bookingUnit->getStatus() == BookingStatus::Active)
+                $result[] = $bookingUnit;
+        }
+        return new ArrayCollection($result);
+    }
 }
