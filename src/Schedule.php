@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Message\DeleteUnpayed;
 use App\Message\RenewMessage;
 use Symfony\Component\Scheduler\Attribute\AsSchedule;
 use Symfony\Component\Scheduler\RecurringMessage;
@@ -21,6 +22,7 @@ class Schedule implements ScheduleProviderInterface
     {
         return (new SymfonySchedule())
             ->add(RecurringMessage::cron('5 0 * * *', new RenewMessage()))
+            ->add(RecurringMessage::cron('5 0 * * *', new DeleteUnpayed()))
             ->stateful($this->cache) // ensure missed tasks are executed
             ->processOnlyLastMissedRun(true) // ensure only last missed task is run
         ;
