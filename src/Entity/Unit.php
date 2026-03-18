@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\BookingStatus;
 use App\Enum\UnitStatus;
 use App\Repository\UnitRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -168,7 +169,7 @@ class Unit
         if (!$this->getBookingUnits()->isEmpty())
         {
             foreach ($this->getBookingUnits() as $bookingUnit) {
-                if ($bookingUnit->getStart() < $now && $now < $bookingUnit->getEnd())
+                if ($bookingUnit->getStatus() == BookingStatus::Active)
                     return $bookingUnit;
             }
         }
