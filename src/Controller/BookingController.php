@@ -172,8 +172,7 @@ final class BookingController extends ModelController
         $booking->setIsRenewable(!$booking->isRenewable());
         $em->persist($booking);
         $em->flush();
-        $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
-        return $this->redirectToRoute('app_user_booking');
+        return $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
     }
 
     #[Route('/{booking}/', name: 'app_booking_details')]
