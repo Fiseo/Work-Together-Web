@@ -108,6 +108,9 @@ final class BookingController extends ModelController
         if ($user->getId() !== $booking->getClient()->getId())
             return $this->kick();
 
+        if ($booking->getStatus() !== BookingStatus::NeedPayement)
+            return $this->kick('app_user_booking');
+
         $form = $this->createForm(PayType::class);
 
         $form->handleRequest($request);
