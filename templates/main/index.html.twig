@@ -126,7 +126,7 @@
                     <div class="pricing-body">
                         {# price first, then description #}
                         <div class="pricing-price">
-                            <span class="amount">{{ offer.discount * offer.unitProvided }}€ / mois</span>
+                            <span class="amount">{{ (offer.discount / 100) * data.price * offer.unitProvided }}€ / mois</span>
                             <small>TVA non incluse</small>
                         </div>
 

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Controller\DataModel\MainData;
 use App\Entity\Client;
 use App\Repository\OfferRepository;
+use App\Repository\PriceRepository;
 use App\Repository\UnitRepository;
 use App\Service\UnitService;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ final class MainController extends ModelController
         OfferRepository $oRepo,
         UnitRepository $uRepo,
         UnitService $uService,
+        PriceRepository $pRepo,
     ): Response
     {
         if ($this->getUser() && !($this->getUser() instanceof Client))
@@ -25,7 +27,8 @@ final class MainController extends ModelController
         $nbrUnits = count($uRepo->findAll());
         $data = (new MainData())
             ->setTotalUnit($nbrUnits)
-            ->setAvailablePercentage($uService->getNumberUnit() / $nbrUnits * 100);
+            ->setAvailablePercentage($uService->getNumberUnit() / $nbrUnits * 100)
+            ->setPrice($pRepo->findCurrent()->getValue());
         return $this->render('main/index.html.twig', [
             'data' => $data,
             'offers' => $oRepo->findAll()

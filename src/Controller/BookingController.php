@@ -10,6 +10,7 @@ use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Form\PayType;
 use App\Repository\OfferRepository;
+use App\Repository\PriceRepository;
 use App\Service\UnitService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -96,6 +97,7 @@ final class BookingController extends ModelController
     #[Route('/{booking}/pay', name: 'app_booking_pay')]
     public function pay(
         Booking                $booking,
+        PriceRepository        $pRepo,
         Request                $request,
         EntityManagerInterface $em,
     ):Response {
@@ -142,8 +144,8 @@ final class BookingController extends ModelController
 
         $pay = new Pay();
         $pay->setBooking($booking);
-        $pay->setPriceBefore($booking->getOffer()->getUnitProvided()*100);
-        $after = $pay->getPriceBefore()*($booking->getOffer()->getDiscount()/100);
+        $pay->setPriceBefore($booking->getOffer()->getUnitProvided()*$pRepo->findCurrent()->getValue());
+        $after = $pay->getPriceBefore()*($booking->getOffer()->getDiscount()/$pRepo->findCurrent()->getValue());
         if (!$booking->isMonthly())
             $after = $after*0.9;
         $pay->setPriceAfter($after);
