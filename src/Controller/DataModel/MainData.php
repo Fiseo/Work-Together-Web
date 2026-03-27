@@ -7,6 +7,19 @@ class MainData
     private float $availablePercentage = 0;
     private int $totalUnit = 0;
 
+    private int $price = 0;
+
+    public function getPrice(): int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(int $price): static
+    {
+        $this->price = $price;
+        return $this;
+    }
+
     public function getAvailablePercentage(): float
     {
         return $this->availablePercentage;

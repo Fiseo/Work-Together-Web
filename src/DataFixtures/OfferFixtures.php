@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Offer;
+use App\Entity\Price;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -10,6 +11,11 @@ class OfferFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+        $p = (new Price())
+            ->setValue(100)
+            ->setStart(new \DateTime('2010-01-27'));
+        $manager->persist($p);
+
         $o = (new Offer())
             ->setLabel("Base")
             ->setDiscount(100)
