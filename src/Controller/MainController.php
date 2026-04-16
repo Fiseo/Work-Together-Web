@@ -31,7 +31,7 @@ final class MainController extends ModelController
             ->setPrice($pRepo->findCurrent()->getValue());
         return $this->render('main/index.html.twig', [
             'data' => $data,
-            'offers' => $oRepo->findAll()
+            'offers' => $oRepo->findAllActive(),
         ]);
     }
 

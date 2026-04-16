@@ -31,4 +31,15 @@ class OfferRepository extends ServiceEntityRepository
             ->getResult())
             ;
     }
+
+    public function findAllActive(): Collection
+    {
+        return new ArrayCollection($this->createQueryBuilder('o')
+            ->andWhere('o.isActive = :true')
+            ->setParameter('true', true)
+            ->OrderBy('o.unitProvided', 'ASC')
+            ->getQuery()
+            ->getResult())
+            ;
+    }
 }
