@@ -32,6 +32,9 @@ class Bay
     #[ORM\OneToMany(targetEntity: Unit::class, mappedBy: 'bay', orphanRemoval: true)]
     private Collection $units;
 
+    #[ORM\Column(length: 3)]
+    private ?string $unitPrefix = null;
+
     public function __construct()
     {
         $this->units = new ArrayCollection();
@@ -80,6 +83,18 @@ class Bay
                 $unit->setBay(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUnitPrefix(): ?string
+    {
+        return $this->unitPrefix;
+    }
+
+    public function setUnitPrefix(string $unitPrefix): static
+    {
+        $this->unitPrefix = $unitPrefix;
 
         return $this;
     }
