@@ -20,6 +20,7 @@ class OfferFixtures extends Fixture
             ->setLabel("Base")
             ->setDiscount(100)
             ->setUnitProvided(1)
+            ->setIsActive(true)
             ->setDescription("Idéal pour tester notre infrastructure. Une unité dédiée, accès complet à nos services réseau et supervision 24/7.");
         $this->addReference('base', $o);
         $manager->persist($o);
@@ -28,6 +29,7 @@ class OfferFixtures extends Fixture
             ->setLabel("Start-Up")
             ->setDiscount(90)
             ->setUnitProvided(10)
+            ->setIsActive(true)
             ->setDescription("Conçu pour les jeunes entreprises en croissance. 10 unités avec une remise de 10%, parfait pour démarrer sans surcoût.");
         $this->addReference('startup', $o);
         $manager->persist($o);
@@ -36,6 +38,7 @@ class OfferFixtures extends Fixture
             ->setLabel("PME")
             ->setDiscount(80)
             ->setUnitProvided(21)
+            ->setIsActive(true)
             ->setDescription("La formule équilibrée pour les PME. 21 unités avec 20% de remise et redondance électrique accru.");
         $this->addReference('pme', $o);
         $manager->persist($o);
@@ -44,6 +47,7 @@ class OfferFixtures extends Fixture
             ->setLabel("Entreprise")
             ->setDiscount(70)
             ->setUnitProvided(42)
+            ->setIsActive(true)
             ->setDescription("Notre offre phare pour les grandes structures. 42 unités avec 30% de remise, SLA renforcé et accès prioritaire au support technique.");
         $this->addReference('entreprise', $o);
         $manager->persist($o);
