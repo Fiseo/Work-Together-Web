@@ -36,4 +36,4 @@ jobs:
                   file: ./Dockerfile
                   push: true
                   tags: |
-                      ghcr.io/worktogether-web:${{github.sha}}
+                      ghcr.io/${{ github.repository }}:${{github.sha}}
