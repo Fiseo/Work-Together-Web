@@ -1,0 +1,19 @@
+{
+  "name": "work-together",
+  "version": "1.0.0",
+  "description": "Projet conçut pour l'épreuve E6 du BTS SIO option SLAM en utilisant le Framework Symfony\r ---",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.59.1",
+    "@types/node": "^25.6.0"
+  }
+}
