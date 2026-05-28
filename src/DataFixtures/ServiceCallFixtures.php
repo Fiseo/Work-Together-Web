@@ -17,11 +17,15 @@ class ServiceCallFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager): void
     {
         $sct = (new ServiceCallType())
-            ->setLabel('Exemple 1');
+            ->setLabel('Reallocation');
         $manager->persist($sct);
 
         $sct = (new ServiceCallType())
-            ->setLabel('Exemple 2');
+            ->setLabel('Rewiring');
+        $manager->persist($sct);
+
+        $sct = (new ServiceCallType())
+            ->setLabel('Piece Change');
         $manager->persist($sct);
 
         $sc = (new ServiceCall())
@@ -30,7 +34,6 @@ class ServiceCallFixtures extends Fixture implements DependentFixtureInterface
             ->setTechnician($this->getReference('technician', Technician::class))
             ->setUnit($this->unitService->getAvailableUnits(1)[0]);
         $manager->persist($sc);
-
 
 
         $manager->flush();

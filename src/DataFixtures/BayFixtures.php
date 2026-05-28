@@ -4,11 +4,13 @@ namespace App\DataFixtures;
 
 use App\Entity\Bay;
 use App\Entity\Unit;
+use App\Service\UnitService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
 class BayFixtures extends Fixture
 {
+    public function __construct(private UnitService $unitService){}
     public function load(ObjectManager $manager): void
     {
         $uTemplate = (new Unit())
@@ -87,6 +89,15 @@ class BayFixtures extends Fixture
             else
                 $u->setLabel($b->getUnitPrefix().'0'.$i);
             $manager->persist($u);
+        }
+
+        $manager->flush();
+
+        $units = $this->unitService->getAvailableUnits(6);
+
+        foreach ($units as $unit) {
+            $unit->setHaveProblem(true);
+            $manager->persist($unit);
         }
 
         $manager->flush();

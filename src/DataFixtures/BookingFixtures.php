@@ -42,7 +42,7 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
         $booking = (new Booking())
             ->setIsPayed(true)
             ->setStart(new \DateTime('2025-05-18'))
-            ->setEnd(new \DateTime('2026-05-18'))
+            ->setEnd(new \DateTime('2027-05-18'))
             ->setClient($this->getReference('jane', Individual::class))
             ->setIsRenewable(true)
             ->setLabel(bin2hex(random_bytes(8)))
@@ -60,6 +60,8 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             $bu = clone $buTemplate;
             $bu->setUnit($unit);
             $manager->persist($bu);
+            $unit->setHaveProblem(true);
+            $manager->persist($unit);
         }
 
         $booking = (new Booking())
