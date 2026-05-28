@@ -21,15 +21,13 @@ class UnitService
 
     public function getNumberUnit(): int
     {
-        if (!isset($this->numberUnit))
-            $this->setNumberUnit();
+        $this->setNumberUnit();
         return $this->numberUnit;
     }
 
     public function isAvailable(int $number): bool
     {
-        if (!isset($this->numberUnit))
-            $this->setNumberUnit();
+        $this->setNumberUnit();
         return ($this->numberUnit >= $number);
     }
 
