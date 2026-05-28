@@ -18,6 +18,9 @@ class UnitRepository extends ServiceEntityRepository
         parent::__construct($registry, Unit::class);
     }
 
+    /***
+     * @return Collection<int,Unit>
+     */
     public function findAllWithBookingUnits(): Collection
     {
         $result = $this->createQueryBuilder('u')
