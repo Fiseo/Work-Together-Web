@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\PriceRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -22,6 +24,17 @@ class Price
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTime $end = null;
+
+    /**
+     * @var Collection<int, Receipt>
+     */
+    #[ORM\OneToMany(targetEntity: Receipt::class, mappedBy: 'price')]
+    private Collection $receipts;
+
+    public function __construct()
+    {
+        $this->receipts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -60,6 +73,36 @@ class Price
     public function setEnd(?\DateTime $end): static
     {
         $this->end = $end;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Receipt>
+     */
+    public function getReceipts(): Collection
+    {
+        return $this->receipts;
+    }
+
+    public function addReceipt(Receipt $receipt): static
+    {
+        if (!$this->receipts->contains($receipt)) {
+            $this->receipts->add($receipt);
+            $receipt->setPrice($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceipt(Receipt $receipt): static
+    {
+        if ($this->receipts->removeElement($receipt)) {
+            // set the owning side to null (unless already changed)
+            if ($receipt->getPrice() === $this) {
+                $receipt->setPrice(null);
+            }
+        }
 
         return $this;
     }

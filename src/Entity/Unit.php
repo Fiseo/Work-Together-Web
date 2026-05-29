@@ -189,4 +189,9 @@ class Unit
             return UnitStatus::Incident;
         return UnitStatus::Ok;
     }
+
+    public function getFullLabel(): string
+    {
+        return $this->bay->getLabel() . "-" . $this->label;
+    }
 }

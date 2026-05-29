@@ -5,6 +5,7 @@ namespace App\MessageHandler;
 use App\Enum\BookingStatus;
 use App\Message\RenewMessage;
 use App\Repository\BookingRepository;
+use App\Service\ReceiptService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -12,8 +13,9 @@ use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 final class RenewMessageHandler
 {
     public function __construct(
-        private BookingRepository $repo,
+        private BookingRepository      $repo,
         private EntityManagerInterface $em,
+        private ReceiptService         $rs,
     ){}
     public function __invoke(RenewMessage $message): void
     {
@@ -31,6 +33,7 @@ final class RenewMessageHandler
                     $unit->setEnd($newEnd);
                     $this->em->persist($unit);
                 }
+                $r = $this->rs->createReceipt($b);
                 $this->em->persist($b);
             }
         }

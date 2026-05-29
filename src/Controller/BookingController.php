@@ -6,11 +6,13 @@ use App\Controller\DataModel\Pay;
 use App\Entity\Booking;
 use App\Entity\BookingUnit;
 use App\Entity\Client;
+use App\Entity\Receipt;
 use App\Enum\BookingStatus;
 use App\Form\BookingType;
 use App\Form\PayType;
 use App\Repository\OfferRepository;
 use App\Repository\PriceRepository;
+use App\Service\ReceiptService;
 use App\Service\UnitService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -178,6 +180,44 @@ final class BookingController extends ModelController
         $em->persist($booking);
         $em->flush();
         return $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
+    }
+
+    #[Route('/{booking}/receipt', name: 'app_booking_receipt')]
+    public function receipt(
+        Booking $booking
+    ):Response {
+        if (!$this->isConnected())
+            return $this->kick();
+
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user->getId() !== $booking->getClient()->getId())
+            return $this->kick();
+
+        return $this->render('booking/receipt.html.twig', [
+            'booking' => $booking,
+        ]);
+    }
+
+    #[Route('/receipt/{id}/pdf', name: 'receipt_pdf')]
+    public function pdf(Receipt $receipt, ReceiptService $pdfService): Response
+    {
+        if (!$this->isConnected())
+            return $this->kick();
+
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user->getId() !== $receipt->getBooking()->getClient()->getId())
+            return $this->kick();
+
+        $content = $pdfService->generatePdf($receipt);
+
+        return new Response($content, 200, [
+            'Content-Type'        => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="facture-' . $receipt->getInvoiceNumber() . '.pdf"',
+        ]);
     }
 
     #[Route('/{booking}/', name: 'app_booking_details')]

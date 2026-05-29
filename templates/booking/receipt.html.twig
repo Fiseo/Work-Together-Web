@@ -1,0 +1,88 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Factures — {{ booking.label }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('styles/booking.css') }}">
+    <link rel="stylesheet" href="{{ asset('styles/grid.css') }}">
+{% endblock %}
+
+{% block body %}
+
+    <div class="page-header">
+        <a href="{{ path('app_user_booking') }}" style="font-size: 0.85rem; color: #6b7280; text-decoration: none; display: inline-flex; align-items: center; gap: 4px; margin-bottom: 0.75rem;">
+            ← Retour aux réservations
+        </a>
+        <h1>Factures — {{ booking.label }}</h1>
+        <p style="color: #6b7280; font-size: 0.9rem; margin-top: 0.25rem;">
+            Réservation du {{ booking.start|date('d/m/Y') }} au {{ booking.end|date('d/m/Y') }}
+            &nbsp;·&nbsp;
+            {% if booking.isMonthly %}
+                <span class="badge badge--monthly">Mensuel</span>
+            {% else %}
+                <span class="badge badge--yearly">Annuel</span>
+            {% endif %}
+        </p>
+    </div>
+
+    <div class="booking-card">
+        <table class="data-grid">
+            <thead>
+            <tr>
+                <th>N° Facture</th>
+                <th>Date d'émission</th>
+                <th>Période</th>
+                <th>Total HT</th>
+                <th>TVA</th>
+                <th>Total TTC</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% if booking.receipts is not empty %}
+                {% for receipt in booking.receipts %}
+                    <tr class="data-row">
+                        <td data-label="N° Facture">
+                            <strong>{{ receipt.invoiceNumber }}</strong>
+                        </td>
+                        <td class="data-field" data-label="Date d'émission">
+                            {{ receipt.creation|date('d/m/Y') }}
+                        </td>
+                        <td class="data-field" data-label="Période">
+                            {{ receipt.startPeriod|date('d/m/Y') }} → {{ receipt.endPeriod|date('d/m/Y') }}
+                        </td>
+                        <td class="data-field" data-label="Total HT">
+                            {{ receipt.totalHT }} €
+                        </td>
+                        <td class="data-field" data-label="TVA">
+                            {{ receipt.totalTva }} €
+                        </td>
+                        <td class="data-field" data-label="Total TTC">
+                            <strong>{{ receipt.totalTtc }} €</strong>
+                        </td>
+                        <td class="data-field" data-label="Action">
+                            <a href="{{ path('receipt_pdf', { id: receipt.id }) }}" class="btn-action green-action">
+                                Télécharger
+                            </a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="7">
+                        <div class="empty-state">
+                            <div class="empty-state__icon">🧾</div>
+                            <p class="empty-state__title">Aucune facture disponible</p>
+                            <p class="empty-state__sub">Les factures de cette réservation apparaîtront ici.</p>
+                        </div>
+                    </td>
+                </tr>
+            {% endif %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

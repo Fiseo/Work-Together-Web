@@ -54,9 +54,16 @@ class Booking
     #[ORM\Column(length: 255)]
     private ?string $label = null;
 
+    /**
+     * @var Collection<int, Receipt>
+     */
+    #[ORM\OneToMany(targetEntity: Receipt::class, mappedBy: 'booking')]
+    private Collection $receipts;
+
     public function __construct()
     {
         $this->bookingUnits = new ArrayCollection();
+        $this->receipts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -229,5 +236,35 @@ class Booking
                 $result[] = $bookingUnit;
         }
         return new ArrayCollection($result);
+    }
+
+    /**
+     * @return Collection<int, Receipt>
+     */
+    public function getReceipts(): Collection
+    {
+        return $this->receipts;
+    }
+
+    public function addReceipt(Receipt $receipt): static
+    {
+        if (!$this->receipts->contains($receipt)) {
+            $this->receipts->add($receipt);
+            $receipt->setBooking($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReceipt(Receipt $receipt): static
+    {
+        if ($this->receipts->removeElement($receipt)) {
+            // set the owning side to null (unless already changed)
+            if ($receipt->getBooking() === $this) {
+                $receipt->setBooking(null);
+            }
+        }
+
+        return $this;
     }
 }

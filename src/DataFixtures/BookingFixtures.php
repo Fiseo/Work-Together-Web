@@ -6,6 +6,7 @@ use App\Entity\Booking;
 use App\Entity\BookingUnit;
 use App\Entity\Individual;
 use App\Entity\Offer;
+use App\Service\ReceiptService;
 use App\Service\UnitService;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
@@ -13,7 +14,7 @@ use Doctrine\Persistence\ObjectManager;
 
 class BookingFixtures extends Fixture implements DependentFixtureInterface
 {
-    public function __construct(private UnitService $unitService){}
+    public function __construct(private UnitService $unitService, private ReceiptService $receiptService){}
     public function load(ObjectManager $manager): void
     {
         $booking = (new Booking())
@@ -38,6 +39,8 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             $bu->setUnit($unit);
             $manager->persist($bu);
         }
+
+        $this->receiptService->createReceiptsForBooking($booking);
 
         $booking = (new Booking())
             ->setIsPayed(true)
@@ -64,6 +67,8 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             $manager->persist($unit);
         }
 
+        $this->receiptService->createReceiptsForBooking($booking);
+
         $booking = (new Booking())
             ->setIsPayed(true)
             ->setStart(new \DateTime('2017-05-18'))
@@ -86,6 +91,8 @@ class BookingFixtures extends Fixture implements DependentFixtureInterface
             $bu->setUnit($unit);
             $manager->persist($bu);
         }
+
+        $this->receiptService->createReceiptsForBooking($booking);
 
         $manager->flush();
     }
