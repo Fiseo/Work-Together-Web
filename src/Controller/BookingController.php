@@ -12,6 +12,7 @@ use App\Form\BookingType;
 use App\Form\PayType;
 use App\Repository\OfferRepository;
 use App\Repository\PriceRepository;
+use App\Repository\ReceiptRepository;
 use App\Service\ReceiptService;
 use App\Service\UnitService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -100,6 +101,7 @@ final class BookingController extends ModelController
     public function pay(
         Booking                $booking,
         PriceRepository        $pRepo,
+        ReceiptService         $receiptService,
         Request                $request,
         EntityManagerInterface $em,
     ):Response {
@@ -127,6 +129,8 @@ final class BookingController extends ModelController
                 $end = (new \DateTime($booking->getStart()->format('Y-m-d')))->modify('+1 year');
             $booking->setEnd($end);
             $em->persist($booking);
+
+            $receiptService->createReceipt($booking);
 
             foreach ($booking->getBookingUnits() as $unit) {
                 $unit->setStart($booking->getStart());
