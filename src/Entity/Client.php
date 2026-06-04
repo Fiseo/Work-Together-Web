@@ -94,4 +94,16 @@ abstract class Client extends User
         }
         return new ArrayCollection($result);
     }
+
+    public function getUnitsWithProblem(): Collection
+    {
+        $units = $this->getUnits();
+        $result = [];
+        foreach ($units as $unit){
+            if ($unit->isHaveProblem()){
+                $result[] = $unit;
+            }
+        }
+        return new ArrayCollection($result);
+    }
 }

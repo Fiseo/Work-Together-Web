@@ -32,6 +32,7 @@ final class UserController extends ModelController
                 'nbrActiveBooking' => $user->getBookingsFilter(BookingStatus::Active)->count(),
                 'nbrFinishedBooking' => $user->getBookingsFilter(BookingStatus::Finished)->count(),
                 'nbrActiveUnit' => $user->getUnits()->count(),
+                'nbrIncidentUnit' => $user->getUnitsWithProblem()->count(),
             ]);
         }
         else {
@@ -41,6 +42,7 @@ final class UserController extends ModelController
                 'nbrActiveBooking' => $user->getBookingsFilter(BookingStatus::Active)->count(),
                 'nbrFinishedBooking' => $user->getBookingsFilter(BookingStatus::Finished)->count(),
                 'nbrActiveUnit' => $user->getUnits()->count(),
+                'nbrIncidentUnit' => $user->getUnitsWithProblem()->count(),
             ]);
         }
     }
