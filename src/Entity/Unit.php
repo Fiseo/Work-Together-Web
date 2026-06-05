@@ -163,15 +163,18 @@ class Unit
         return false;
     }
 
+    public function isAvailableAt(\DateTime $dateTime): bool
+    {
+        if ($this->getBookingUnitAt($dateTime) == null)
+            return true;
+        return false;
+    }
+
     public function getCurrentBookingUnit(): ?BookingUnit
     {
-        $now = new \DateTime();
-        if (!$this->getBookingUnits()->isEmpty())
-        {
-            foreach ($this->getBookingUnits() as $bookingUnit) {
-                if ($bookingUnit->getStatus() == BookingStatus::Active)
-                    return $bookingUnit;
-            }
+        foreach ($this->getBookingUnits() as $bookingUnit) {
+            if ($bookingUnit->getStatus() == BookingStatus::Active)
+                return $bookingUnit;
         }
         return null;
     }
@@ -193,5 +196,15 @@ class Unit
     public function getFullLabel(): string
     {
         return $this->bay->getLabel() . "-" . $this->label;
+    }
+
+    public function getBookingUnitAt(\DateTime $date): ?BookingUnit
+    {
+        foreach ($this->getBookingUnits() as $bookingUnit) {
+            if ($bookingUnit->getStatus() === BookingStatus::Finished && $bookingUnit->getStart() <= $date && $bookingUnit->getEnd() >= $date) {
+                return $bookingUnit;
+            }
+        }
+        return null;
     }
 }

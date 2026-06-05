@@ -16,51 +16,63 @@ class UserFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
+        $mdp = '$2y$13$16OpOQBpMTzTIuDyXk61/OB1ksNcf5deJnjsk5hA5r4UPGv8Uooz6';//Not24get
         $u = (new User())
             ->setUsername('admin')
             ->setEmail('admin@gmail.com')
-            ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
+            ->setPassword($mdp);
         $manager->persist($u);
 
-        $a = (new Accountant())
-            ->setUsername('accountant')
-            ->setEmail('accountant@gmail.com')
-            ->setFirstName('Rachel')
-            ->setLastName('Prime')
-            ->setCivility($this->getReference('f', Civility::class))
-            ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
-        $this->addReference('accountant', $a);
-        $manager->persist($a);
-
         $t = (new Technician())
-            ->setUsername('technician')
-            ->setEmail('technician@gmail.com')
+            ->setUsername('Doe John')
+            ->setEmail('technicien@gmail.com')
             ->setFirstName('John')
             ->setLastName('Doe')
             ->setCivility($this->getReference('h', Civility::class))
-            ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
+            ->setPassword($mdp);
         $this->addReference('technician', $t);
         $manager->persist($t);
+
+        $a = (new Accountant())
+            ->setUsername('Dupond Jeanne')
+            ->setEmail('comptable@gmail.com')
+            ->setFirstName('Jeanne')
+            ->setLastName('Dupond')
+            ->setCivility($this->getReference('f', Civility::class))
+            ->setPassword($mdp);
+        $this->addReference('accountant', $a);
+        $manager->persist($a);
+
+        $i = (new Individual())
+            ->setUsername('Vigile')
+            ->setEmail('virgile@gmail.com')
+            ->setFirstName('Virgile')
+            ->setLastName('Martinier')
+            ->setBirthDate(new \DateTime('2006-05-04'))
+            ->setCivility($this->getReference('h', Civility::class))
+            ->setPassword($mdp);
+        $this->addReference('v', $i);
+        $manager->persist($i);
 
         $i = (new Individual())
             ->setUsername('Jane')
             ->setEmail('jane@gmail.com')
             ->setFirstName('Jane')
             ->setLastName('Doe')
-            ->setBirthDate(new \DateTime('1990-01-01'))
+            ->setBirthDate(new \DateTime('2001-09-18'))
             ->setCivility($this->getReference('f', Civility::class))
-            ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
-        $this->addReference('jane', $i);
+            ->setPassword($mdp);
+        $this->addReference('j', $i);
         $manager->persist($i);
 
         $c = (new Company())
-            ->setUsername('Google')
-            ->setEmail('google@gmail.com')
-            ->setName('Google')
-            ->setCreation(new \DateTime('1998-09-04'))
+            ->setUsername('Lactalis')
+            ->setEmail('lactalis@gmail.com')
+            ->setName('Lactalis')
+            ->setCreation(new \DateTime('1933-10-19'))
             ->setCompanyRegister('44306184100047')
-            ->setPassword('$2y$13$KxH9ONFNvdook3MyNVqOJ.S6NML.r5nBvdFM6W0xkexhbGwCJvraO');//613670
-        $this->addReference('google', $c);
+            ->setPassword($mdp);
+        $this->addReference('l', $c);
         $manager->persist($c);
 
         $manager->flush();

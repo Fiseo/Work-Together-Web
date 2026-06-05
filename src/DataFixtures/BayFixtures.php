@@ -10,94 +10,37 @@ use Doctrine\Persistence\ObjectManager;
 
 class BayFixtures extends Fixture
 {
-    public function __construct(private UnitService $unitService){}
+
+    private function createBay(string $label, ObjectManager $manager)
+    {
+        $b = (new Bay())
+            ->setLabel($label)
+            ->setUnitPrefix("U");
+        $manager->persist($b);
+
+        for ($i = 1; $i <= 42; $i++) {
+            $u = new Unit();
+            $u->setBay($b);
+            if ($i >= 10)
+                $u->setLabel($b->getUnitPrefix().$i);
+            else
+                $u->setLabel($b->getUnitPrefix().'0'.$i);
+            if (mt_rand(1, 67) === 1)
+                $u->setHaveProblem(true);
+            else
+                $u->setHaveProblem(false);
+
+            $manager->persist($u);
+        }
+    }
+
     public function load(ObjectManager $manager): void
     {
-        $uTemplate = (new Unit())
-            ->setHaveProblem(false);
-
-        $b = (new Bay())
-            ->setLabel('B01')
-            ->setUnitPrefix("U");
-        $manager->persist($b);
-
-        for ($i = 1; $i <= 42; $i++) {
-            $u = clone $uTemplate;
-            $u->setBay($b);
+        for ($i = 1; $i <= 30; $i++) {
             if ($i >= 10)
-                $u->setLabel($b->getUnitPrefix().$i);
+                $this->createBay("B".$i, $manager);
             else
-                $u->setLabel($b->getUnitPrefix().'0'.$i);
-            $manager->persist($u);
-        }
-
-        $b = (new Bay())
-            ->setLabel('B02')
-            ->setUnitPrefix("U");
-        $manager->persist($b);
-
-        for ($i = 1; $i <= 42; $i++) {
-            $u = clone $uTemplate;
-            $u->setBay($b);
-            if ($i >= 10)
-                $u->setLabel($b->getUnitPrefix().$i);
-            else
-                $u->setLabel($b->getUnitPrefix().'0'.$i);
-            $manager->persist($u);
-        }
-
-        $b = (new Bay())
-            ->setLabel('B03')
-            ->setUnitPrefix("U");
-        $manager->persist($b);
-
-        for ($i = 1; $i <= 42; $i++) {
-            $u = clone $uTemplate;
-            $u->setBay($b);
-            if ($i >= 10)
-                $u->setLabel($b->getUnitPrefix().$i);
-            else
-                $u->setLabel($b->getUnitPrefix().'0'.$i);
-            $manager->persist($u);
-        }
-
-        $b = (new Bay())
-            ->setLabel('B04')
-            ->setUnitPrefix("U");
-        $manager->persist($b);
-
-        for ($i = 1; $i <= 42; $i++) {
-            $u = clone $uTemplate;
-            $u->setBay($b);
-            if ($i >= 10)
-                $u->setLabel($b->getUnitPrefix().$i);
-            else
-                $u->setLabel($b->getUnitPrefix().'0'.$i);
-            $manager->persist($u);
-        }
-
-        $b = (new Bay())
-            ->setLabel('B05')
-            ->setUnitPrefix("U");
-        $manager->persist($b);
-
-        for ($i = 1; $i <= 42; $i++) {
-            $u = clone $uTemplate;
-            $u->setBay($b);
-            if ($i >= 10)
-                $u->setLabel($b->getUnitPrefix().$i);
-            else
-                $u->setLabel($b->getUnitPrefix().'0'.$i);
-            $manager->persist($u);
-        }
-
-        $manager->flush();
-
-        $units = $this->unitService->getAvailableUnits(6);
-
-        foreach ($units as $unit) {
-            $unit->setHaveProblem(true);
-            $manager->persist($unit);
+                $this->createBay("B0".$i, $manager);
         }
 
         $manager->flush();

@@ -46,5 +46,21 @@ class UnitRepository extends ServiceEntityRepository
         return new ArrayCollection($result);
     }
 
+    /**
+     * @return Collection<int, Unit>
+     */
+    public function findAvailableAt(\DateTime $date): Collection
+    {
+        $nonFiltered = $this->findAllWithBookingUnits();
+
+        $result = [];
+        foreach ($nonFiltered as $unit) {
+            if ($unit->isAvailableAt($date))
+                $result[] = $unit;
+        }
+
+        return new ArrayCollection($result);
+    }
+
 
 }
