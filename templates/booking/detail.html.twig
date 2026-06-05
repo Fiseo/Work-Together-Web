@@ -96,8 +96,12 @@
                         <a href="{{ path('app_booking_pay', { booking: booking.id }) }}" class="btn-action btn-action--green">Payer</a>
                         <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--red">Annuler</a>
                     {% elseif booking.status.value == 'active' %}
-                        <a href="{{ path('app_yet_to_implement') }}" class="btn-action btn-action--green">Facture</a>
-                        <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action btn-action--red">Arrêter</a>
+                        <a href="{{ path('app_booking_receipt', { booking: booking.id}) }}" class="btn-action btn-action--green">Facture</a>
+                        {% if booking.isRenewable %}
+                            <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action btn-action--red">Arrêter</a>
+                        {% else %}
+                            <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action btn-action--blue">Reprendre</a>
+                        {% endif %}
                     {% endif %}
                 </div>
 

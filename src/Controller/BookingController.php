@@ -6,6 +6,7 @@ use App\Controller\DataModel\Pay;
 use App\Entity\Booking;
 use App\Entity\BookingUnit;
 use App\Entity\Client;
+use App\Entity\Offer;
 use App\Entity\Receipt;
 use App\Enum\BookingStatus;
 use App\Form\BookingType;
@@ -23,7 +24,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/booking')]
 final class BookingController extends ModelController
 {
-    #[Route('/new', name: 'app_booking_new')]
+    #[Route('/new/{offer}', name: 'app_booking_new')]
     public function new(
         OfferRepository        $or,
         UnitService            $us,
@@ -184,6 +185,32 @@ final class BookingController extends ModelController
         $em->persist($booking);
         $em->flush();
         return $this->redirectToRoute('app_booking_details', ['booking' => $booking->getId()]);
+    }
+
+    #[Route('/{booking}/delete', name: 'app_booking_delete')]
+    public function delete(Booking $booking, EntityManagerInterface $em): Response
+    {
+        if (!$this->isConnected())
+            return $this->kick();
+
+        /** @var Client $user */
+        $user = $this->getUser();
+
+        if ($user->getId() !== $booking->getClient()->getId())
+            return $this->kick();
+
+        if ($booking->isPayed())
+            return $this->kick();
+
+        $em->remove($booking);
+        $em->flush();
+
+        $this->addFlash(
+            'success',
+            'Votre réservation a bien été supprimé.'
+        );
+
+        return $this->redirectToRoute('app_user_booking');
     }
 
     #[Route('/{booking}/receipt', name: 'app_booking_receipt')]

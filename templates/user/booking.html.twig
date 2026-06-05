@@ -68,10 +68,14 @@
                         <td class="data-field" data-label="Action">
                             {% if booking.status.value == 'en attente de paiement' %}
                                 <a href="{{ path('app_booking_pay', { booking: booking.id} ) }}" class="btn-action green-action">Payer</a>
-                                <a href="{{ path('app_yet_to_implement') }}" class="btn-action red-action">Annuler</a> {# TODO: Permettre d'annuler une commande #}
+                                <a href="{{ path('app_booking_delete', { booking: booking.id}) }}" class="btn-action red-action">Annuler</a>
                             {% elseif booking.status.value == 'active' %}
-                                <a href="{{ path('app_booking_receipt', { booking: booking.id}) }}" class="btn-action green-action">Facture</a> {# TODO: Faire la fonction de création de facture #}
-                                <a href="{{ path('app_booking_renewable', { booking: booking.id}) }}" class="btn-action red-action">Arrêter</a>
+                                <a href="{{ path('app_booking_receipt', { booking: booking.id}) }}" class="btn-action green-action">Facture</a>
+                                {% if booking.isRenewable %}
+                                    <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action red-action">Arrêter</a>
+                                {% else %}
+                                    <a href="{{ path('app_booking_renewable', { booking: booking.id }) }}" class="btn-action blue-action">Reprendre</a>
+                                {% endif %}
                             {% else %}
                                 <a>-</a>
                             {% endif %}
